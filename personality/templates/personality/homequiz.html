@@ -1,0 +1,14 @@
+{% extends 'personality/main.html' %}
+
+{% block content %}
+
+<h1> Quiz home page!</h1>
+{% block title %}
+{{obj.name}}
+{% endblock title %}
+
+<hr>
+{% for obj in object_list %}
+<button class="btn btn-link modal-button">{{obj.name}}</button>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'employee/core.html' %}
+{% block content %}
+
+<h1> Employee home page!</h1>
+{% for obj in object_list %}
+
+{{obj.name}}
+
+{% endfor %}
+{% endblock %}
