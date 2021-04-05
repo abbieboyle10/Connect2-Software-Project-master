@@ -204,7 +204,7 @@ def save_quiz_view(request, pk):
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='e', second_letter='n', third_letter='f', fourth_letter='j', person_type='enfj', employee=employee,)
+                            first_letter='e', second_letter='n', third_letter='f', fourth_letter='j', person_type='enfj', employee=employee, group=)
                     elif p_score > j_score:
 
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
