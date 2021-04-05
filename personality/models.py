@@ -80,6 +80,12 @@ class Result(models.Model):
 
 
 class Personality(models.Model):
+    personality_groups = {
+        ('nt', 'nt'),
+        ('nf', 'nf'),
+        ('sj', 'sj'),
+        ('sp', 'sp'),
+    }
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     first_letter = models.CharField(max_length=200)
     second_letter = models.CharField(max_length=200)
@@ -87,3 +93,5 @@ class Personality(models.Model):
     fourth_letter = models.CharField(max_length=200)
     person_type = models.CharField(max_length=200)
     is_complete = models.BooleanField(default=False)
+    group = models.CharField(max_length=200, null=True,
+                             choices=personality_groups)

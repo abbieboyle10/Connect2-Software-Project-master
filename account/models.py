@@ -127,11 +127,15 @@ class Employer(models.Model):
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, primary_key=True)
     phone = models.CharField(max_length=200)
-    location = models.CharField(max_length=200)
     company_name = models.CharField(max_length=200)
     email = models.EmailField(max_length=200, blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
+    sector = models.CharField(max_length=200, blank=True)
+    avatar = models.ImageField(default='avatar.jpg', upload_to='avatar_pics')
+    county = models.CharField(max_length=200, blank=True)
+    city = models.CharField(max_length=200, blank=True)
+    location = models.CharField(max_length=200)
 
     def __str__(self):
         return self.user.username
@@ -162,17 +166,77 @@ def __init__(self, *args, **kwargs):
 
 class Job(models.Model):
     STATUS = (
-        ('Business', 'Business'),
-        ('Technology', 'Technology'),
-        ('Science', 'Science'),
+        ('Open', 'Open'),
+        ('Closed', 'Closed'),
+
+    )
+    CONTRACT = (
+        ('Full Time', 'Full Time'),
+        ('Part Time', 'Part Time'),
+
+    )
+
+    WORK = (
+        ('Office', 'Office'),
+        ('Remote', 'Remote'),
+
+    )
+    LENGTH = (
+        ('Permanent', 'Permanent'),
+        ('Temporary', 'Temporary'),
+
     )
 
     employer = models.ForeignKey(
-        Employer, null=True, on_delete=models.SET_NULL)
+        Employer, null=True, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     status = models.CharField(max_length=200, null=True, choices=STATUS)
     title = models.CharField(max_length=200)
-    description = models.CharField(max_length=200, null=True, blank=True)
+    description_role = models.TextField(max_length=2000, null=True, blank=True)
+    description_personality = models.CharField(
+        max_length=200, null=True, blank=True)
+    contract = models.CharField(max_length=200, null=True, choices=CONTRACT)
+    office_type = models.CharField(max_length=200, null=True, choices=WORK)
+    length = models.CharField(max_length=200, null=True, choices=LENGTH)
+    ideal_person = models.CharField(max_length=200, null=True)
+    location = models.CharField(max_length=200, null=True)
+    num_hires = models.IntegerField(null=True)
+
+# need to add skill list!
 
     def __str__(self):
         return self.title
+
+
+class Person_Des(models.Model):
+
+    Job = models.ForeignKey(
+        Job, null=True, on_delete=models.CASCADE)
+    description = models.CharField(
+        max_length=2000, null=True, blank=True)
+    enviornment = models.CharField(
+        max_length=2000, null=True, blank=True)
+
+    def __str__(self):
+        return self.description
+
+
+class Application(models.Model):
+    STATUS = {
+        ('applied', 'applied'),
+        ('second round', 'second round'),
+        ('interview', 'interview'),
+        ('rejected', 'rejected'),
+    }
+    candidate = models.ForeignKey(
+        Employee, on_delete=models.CASCADE, related_name='candidates')
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    status = models.CharField(max_length=15, choices=STATUS)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+    score = models.IntegerField(null=True)
+    cover_letter = models.TextField(
+        null=True)
+
+    def __str__(self):
+        return f"{self.candidate}-{self.job}-{self.status}"

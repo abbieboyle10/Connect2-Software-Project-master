@@ -1,9 +1,31 @@
 .navbar {
     padding-bottom: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
+.form-group {
+text-align: center;
+  
+}
 
-  .col-md-2 {
-    background-color: aquamarine;
-  }
+#job_pic {
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 300px;
+}
+#job_pic3 {
+
+ 
+  height: 350px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+
+
+#p1 {
+  padding-left: 350px;
+}
+

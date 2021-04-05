@@ -15,7 +15,9 @@
         <td>{{job.title}}</td>
         <td>{{job.employer}}</td>
         <td>{{job.date_created}}</td>
-        <td><a class="nav-link" href="">Apply</a></td>
+        <td><a class="nav-link" href="{% url 'viewjob' pk=job.pk %}">View</a></td>
+
+
 
         {% endfor %}
     </tr>

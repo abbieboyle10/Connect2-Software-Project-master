@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf.urls import url
 from . import views
 
-from .views import employee_home, employee_profile, personality_page, find_job, createSkill, createExperience
+from .views import employee_home, employee_profile, personality_page, find_job, createSkill, createExperience, viewjob
 
 import employee
 
@@ -15,6 +15,9 @@ urlpatterns = [
     path('findjob/', find_job, name='findjob'),
     path('createskill/', createSkill, name='createskill'),
     path('createexperience/', createExperience, name='createexperience'),
+    path('<int:pk>/view', viewjob, name='viewjob'),
+
+
     # path('createskill/employee/profile',
     #    employee_profile, name='employee-profile'),
 

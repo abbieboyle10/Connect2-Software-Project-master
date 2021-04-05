@@ -13,6 +13,7 @@ from account.models import Employee, Skill, Job
 from .forms import SkillForm, ExperienceForm
 from django.contrib.auth.decorators import user_passes_test
 from personality.models import Quiz, Result, Personality
+from .forms import EmployeeModelForm, ApplyJobForm
 
 
 @user_passes_test(employee_check, login_url='employer-home')
@@ -34,11 +35,20 @@ def employee_home(request):
 def employee_profile(request, pk=None):
 
     employee = Employee.objects.get(user=request.user)
+    form = EmployeeModelForm(request.POST or None,
+                             request.FILES or None, instance=employee)
     skills = employee.skill_set.all()
     results = employee.result_set.all()
     personalitys = employee.personality_set.all()
     experiences = employee.experience_set.all()
     quizs = Quiz.objects.all()
+    confirm = False
+
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            confirm = True
+
     context = {
         'employee': employee,
         'skills': skills,
@@ -46,6 +56,9 @@ def employee_profile(request, pk=None):
         'quizs': quizs,
         'results': results,
         'personalitys': personalitys,
+        'form': form,
+        'confirm': confirm,
+
 
     }
 
@@ -102,3 +115,36 @@ def createExperience(request):
 
     context = {'form': form}
     return render(request, 'employee/experiences_form.html', context)
+
+
+def viewjob(request, pk):
+    employee = Employee.objects.get(user=request.user)
+    form = EmployeeModelForm(request.POST or None,
+                             request.FILES or None, instance=employee)
+    form2 = ApplyJobForm()
+    jobs = Job.objects.filter(pk=pk)
+    candidate = Employee.objects.get(user=request.user)
+    job = Job.objects.get(pk=pk)
+    if request.method == 'POST':
+        form2 = ApplyJobForm(request.POST)
+
+        if form2.is_valid():
+            application = form2.save(commit=False)
+            application.job = job
+            application.candidate = candidate
+            application.status = 'applied'
+            application.save()
+            return redirect('employee-home')
+
+    context = {
+        'employee': employee,
+        'jobs': jobs,
+        'form': form,
+        'form2': form2,
+        'job': job,
+
+
+
+
+    }
+    return render(request, 'employee/viewjob.html', context)
