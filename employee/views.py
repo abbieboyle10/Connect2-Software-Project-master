@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 
 from account.decorators import employee_required, employee_check
-from account.models import Employee, Skill, Job
+from account.models import Employee, EmployeeSkill, Job, MatchedSkills
 from .forms import SkillForm, ExperienceForm
 from django.contrib.auth.decorators import user_passes_test
 from personality.models import Quiz, Result, Personality
@@ -37,9 +37,9 @@ def employee_profile(request, pk=None):
     employee = Employee.objects.get(user=request.user)
     form = EmployeeModelForm(request.POST or None,
                              request.FILES or None, instance=employee)
-    skills = employee.skill_set.all()
+    skills = employee.employeeskill_set.all()
     results = employee.result_set.all()
-    personalitys = employee.personality_set.all()
+    personalitys = Personality.objects.filter(employee=employee)
     experiences = employee.experience_set.all()
     quizs = Quiz.objects.all()
     confirm = False
@@ -82,7 +82,7 @@ def find_job(request):
 def createSkill(request):
     form = SkillForm()
     employee = Employee.objects.get(user=request.user)
-    skills = employee.skill_set.all()
+    skills = employee.employeeskill_set.all()
     experiences = employee.experience_set.all()
     context = {'employee': employee, 'skills': skills,
                'experiences': experiences, }
@@ -102,7 +102,7 @@ def createExperience(request):
     form = ExperienceForm()
     employee = Employee.objects.get(user=request.user)
     experiences = employee.experience_set.all()
-    skills = employee.skill_set.all()
+    skills = employee.employeeskill_set.all()
     context = {'employee': employee,
                'experiences': experiences, 'skills': skills, }
 
@@ -125,6 +125,22 @@ def viewjob(request, pk):
     jobs = Job.objects.filter(pk=pk)
     candidate = Employee.objects.get(user=request.user)
     job = Job.objects.get(pk=pk)
+    employeeskills = employee.employeeskill_set.all().values_list('title',
+                                                                  flat=True).distinct()
+    print(employeeskills)
+    jobskills = job.jobskill_set.all().values_list('title', flat=True).distinct()
+    print(jobskills)
+    employeeskills_as_set = set(employeeskills)
+    intersection = employeeskills_as_set.intersection(jobskills)
+    intersection_as_list = list(intersection)
+    print(intersection_as_list)
+    matched_amount = len(intersection_as_list)
+    print(matched_amount)
+
+    personality = Personality.objects.get(employee=employee)
+    person_type = personality.group
+    job_type = job.ideal_person
+
     if request.method == 'POST':
         form2 = ApplyJobForm(request.POST)
 
@@ -133,6 +149,28 @@ def viewjob(request, pk):
             application.job = job
             application.candidate = candidate
             application.status = 'applied'
+            application.person_type = person_type
+            application.job_type = job_type
+            application.save()
+            score = 0
+            print(job_type)
+            print(person_type)
+            if job_type == person_type:
+
+                application.match = True
+                score += 1
+
+            else:
+
+                application.match = False
+
+            for x in intersection_as_list:
+                MatchedSkills.objects.create(application=application, title=x)
+
+                score += 1
+                application.score = score
+
+                print(application.score)
             application.save()
             return redirect('employee-home')
 
@@ -142,6 +180,8 @@ def viewjob(request, pk):
         'form': form,
         'form2': form2,
         'job': job,
+        'person_type': person_type,
+
 
 
 

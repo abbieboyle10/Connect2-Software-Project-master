@@ -18,7 +18,7 @@ class JobForm(ModelForm):
     class Meta:
         model = Job
         fields = ('title', 'location', 'description_role',
-                  'contract', 'office_type', 'length', 'num_hires')
+                  'contract', 'office_type', 'length', 'num_hires', 'description_personality', 'enviornment',)
 
         labels = {
             "title": "Job title",
@@ -27,6 +27,9 @@ class JobForm(ModelForm):
             "office_type": "Can this job be performed remotely, meaning primarily from home? If so, we’ll add a 'Remote' tag to your post",
             "length": "Type of contract",
             "num_hires": "How many people are you hiring?",
+            "description_personality": "Please describe the ideal canidates personality",
+            "enviornment": "Please describe the work enviornment, the future employees role within the team and interaction with co-workers"
+
         }
 
         widgets = {
@@ -37,18 +40,6 @@ class JobForm(ModelForm):
             'office_type': forms.Select(attrs={'class': 'form-control'}),
             'length': forms.Select(attrs={'class': 'form-control'}),
             'num_hires': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-
-
-class PersonForm(ModelForm):
-    class Meta:
-        model = Person_Des
-        fields = ('description', 'enviornment',)
-        widgets = {
-            'description': forms.TextInput(attrs={'class': 'form-control'}),
+            'description_personality': forms.TextInput(attrs={'class': 'form-control'}),
             'enviornment': forms.TextInput(attrs={'class': 'form-control'}),
-        }
-        labels = {
-            "description": "Please describe the ideal canidates personality",
-            "enviornment": "Please describe the work enviornment, the future employees role within the team and interaction with co-workers"
         }

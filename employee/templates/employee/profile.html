@@ -29,9 +29,19 @@
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-6">
+                    {% if personalitys %}
+
+
+
+                    {% else %}
+
                     {% for quiz in quizs %}
                     <a class="nav-link" href="{% url 'quiz-home' pk=quiz.pk %}">{{quiz.name}}</a>
                     {% endfor %}
+
+                    {% endif %}
+
+
 
                     <a class="nav-link" href="{% url 'createskill'  %}">Add Skill</a>
                     <table class="table table-sm">
@@ -45,7 +55,7 @@
                         {% for skill in skills %}
                         <tr>
 
-                            <td>{{skill.tag}}</td>
+                            <td>{{skill.title}}</td>
                             <td>{{skill.level}}</td>
                             <td>{{skill.years_of}}</td>
 

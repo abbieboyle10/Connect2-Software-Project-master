@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.views.generic import ListView
 from django.http import JsonResponse
+from account.models import Employee
 
 
 class QuizListView(ListView):
@@ -204,24 +205,25 @@ def save_quiz_view(request, pk):
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='e', second_letter='n', third_letter='f', fourth_letter='j', person_type='enfj', employee=employee, group=)
+                            first_letter='e', second_letter='n', third_letter='f', fourth_letter='j', person_type='enfj', employee=employee, group='nf', is_complete=True)
                     elif p_score > j_score:
 
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='e', second_letter='n', third_letter='f', fourth_letter='p', person_type='enfp', employee=employee,)
+                            first_letter='e', second_letter='n', third_letter='f', fourth_letter='p', person_type='enfp', employee=employee, group='nf', is_complete=True)
                 elif t_score > f_score:
                     if j_score > p_score:
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='e', second_letter='n', third_letter='t', fourth_letter='j', person_type='entj', employee=employee,)
+                            first_letter='e', second_letter='n', third_letter='t', fourth_letter='j', person_type='entj', employee=employee, group='nt', is_complete=True)
                     elif p_score > j_score:
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='e', second_letter='n', third_letter='t', fourth_letter='p', person_type='entp', employee=employee,)
+                            first_letter='e', second_letter='n', third_letter='t', fourth_letter='p', person_type='entp', employee=employee, group='nt', is_complete=True)
+
             elif s_score > n_score:
                 if f_score > t_score:
                     if j_score > p_score:
@@ -229,26 +231,26 @@ def save_quiz_view(request, pk):
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='e', second_letter='s', third_letter='f', fourth_letter='j', person_type='esfj', employee=employee,)
+                            first_letter='e', second_letter='s', third_letter='f', fourth_letter='j', person_type='esfj', employee=employee, group='sj', is_complete=True)
                     elif p_score > j_score:
 
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='e', second_letter='s', third_letter='f', fourth_letter='p', person_type='esfp', employee=employee,)
+                            first_letter='e', second_letter='s', third_letter='f', fourth_letter='p', person_type='esfp', employee=employee, group='sp', is_complete=True)
                 elif t_score > f_score:
                     if j_score > p_score:
 
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='e', second_letter='s', third_letter='t', fourth_letter='j', person_type='estj', employee=employee,)
+                            first_letter='e', second_letter='s', third_letter='t', fourth_letter='j', person_type='estj', employee=employee, group='sj', is_complete=True)
                     elif p_score > j_score:
 
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='e', second_letter='s', third_letter='t', fourth_letter='p', person_type='estp', employee=employee,)
+                            first_letter='e', second_letter='s', third_letter='t', fourth_letter='p', person_type='estp', employee=employee, group='sp', is_complete=True)
         elif i_score > e_score:
             if n_score > s_score:
                 if f_score > t_score:
@@ -257,26 +259,26 @@ def save_quiz_view(request, pk):
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='i', second_letter='n', third_letter='f', fourth_letter='j', person_type='infj', employee=employee,)
+                            first_letter='i', second_letter='n', third_letter='f', fourth_letter='j', person_type='infj', employee=employee, group='nf', is_complete=True)
                     elif p_score > j_score:
                         infp
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='i', second_letter='n', third_letter='f', fourth_letter='p', person_type='infp', employee=employee,)
+                            first_letter='i', second_letter='n', third_letter='f', fourth_letter='p', person_type='infp', employee=employee, group='nf', is_complete=True)
                 elif t_score > f_score:
                     if j_score > p_score:
 
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='i', second_letter='n', third_letter='t', fourth_letter='j', person_type='intj', employee=employee,)
+                            first_letter='i', second_letter='n', third_letter='t', fourth_letter='j', person_type='intj', employee=employee, group='nt', is_complete=True)
                     elif p_score > j_score:
 
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='i', second_letter='n', third_letter='t', fourth_letter='p', person_type='intp', employee=employee,)
+                            first_letter='i', second_letter='n', third_letter='t', fourth_letter='p', person_type='intp', employee=employee, group='nt', is_complete=True)
             elif s_score > n_score:
                 if f_score > t_score:
                     if j_score > p_score:
@@ -284,23 +286,24 @@ def save_quiz_view(request, pk):
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='i', second_letter='s', third_letter='f', fourth_letter='j', person_type='isfj', employee=employee,)
+                            first_letter='i', second_letter='s', third_letter='f', fourth_letter='j', person_type='isfj', employee=employee, group='sj', is_complete=True)
                     elif p_score > j_score:
 
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='i', second_letter='s', third_letter='f', fourth_letter='p', person_type='isfp', employee=employee,)
+                            first_letter='i', second_letter='s', third_letter='f', fourth_letter='p', person_type='isfp', employee=employee, group='sp', is_complete=True)
                 elif t_score > f_score:
                     if j_score > p_score:
 
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='i', second_letter='s', third_letter='t', fourth_letter='j', person_type='istj', employee=employee,)
+                            first_letter='i', second_letter='s', third_letter='t', fourth_letter='j', person_type='istj', employee=employee, group='sj', is_complete=True)
                     elif p_score > j_score:
 
                         Result.objects.create(quiz=quiz, employee=employee, e_score=e_score, i_score=i_score, s_score=s_score,
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
-                            first_letter='i', second_letter='s', third_letter='t', fourth_letter='p', person_type='istp', employee=employee,)
+                            first_letter='i', second_letter='s', third_letter='t', fourth_letter='p', person_type='istp', employee=employee, group='sp', is_complete=True)
+                return render(request, 'employee/profile.html', context)

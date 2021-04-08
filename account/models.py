@@ -58,42 +58,6 @@ class Employee(models.Model):
         super().save(*args, **kwargs)
 
 
-class Tag(models.Model):
-
-    title = models.CharField(max_length=200)
-
-    def __str__(self):
-        return self.title
-
-
-class Skill(models.Model):
-    skill_level = (
-        ('Beginner', 'Beginner'),
-        ('Intermediate', 'Intermediate'),
-        ('Advanced', 'Advanced'),
-    )
-
-    years_of = (
-        ('1 year <', '1 year <'),
-        ('1 - 2 years', '1 - 2 years'),
-        ('2 - 5 years', '2 - 5 years'),
-        ('5 - 10 years', '5 - 10 years'),
-        ('10+ years', '10+ years'),
-
-
-    )
-    employee = models.ForeignKey(
-        Employee, on_delete=models.CASCADE)
-    tag = models.ForeignKey(
-        Tag, on_delete=models.CASCADE)
-    level = models.CharField(max_length=200, blank=False, choices=skill_level)
-    years_of = models.CharField(max_length=200, blank=True, choices=years_of)
-    description = models.TextField(max_length=400, blank=True)
-
-    def __str__(self):
-        return str(self.tag)
-
-
 class Experience(models.Model):
     length = (
         ('1 year <', '1 year <'),
@@ -193,7 +157,7 @@ class Job(models.Model):
     status = models.CharField(max_length=200, null=True, choices=STATUS)
     title = models.CharField(max_length=200)
     description_role = models.TextField(max_length=2000, null=True, blank=True)
-    description_personality = models.CharField(
+    description_personality = models.TextField(
         max_length=200, null=True, blank=True)
     contract = models.CharField(max_length=200, null=True, choices=CONTRACT)
     office_type = models.CharField(max_length=200, null=True, choices=WORK)
@@ -201,24 +165,14 @@ class Job(models.Model):
     ideal_person = models.CharField(max_length=200, null=True)
     location = models.CharField(max_length=200, null=True)
     num_hires = models.IntegerField(null=True)
+    enviornment = models.TextField(
+        max_length=2000, null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
 
 # need to add skill list!
 
     def __str__(self):
         return self.title
-
-
-class Person_Des(models.Model):
-
-    Job = models.ForeignKey(
-        Job, null=True, on_delete=models.CASCADE)
-    description = models.CharField(
-        max_length=2000, null=True, blank=True)
-    enviornment = models.CharField(
-        max_length=2000, null=True, blank=True)
-
-    def __str__(self):
-        return self.description
 
 
 class Application(models.Model):
@@ -237,6 +191,70 @@ class Application(models.Model):
     score = models.IntegerField(null=True)
     cover_letter = models.TextField(
         null=True)
+    person_type = models.CharField(max_length=15, null=True)
+    job_type = models.CharField(max_length=15, null=True)
+    match = models.BooleanField(default=False)
+    favourited = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.candidate}-{self.job}-{self.status}"
+
+
+class EmployeeSkill(models.Model):
+    skill_level = (
+        ('Beginner', 'Beginner'),
+        ('Intermediate', 'Intermediate'),
+        ('Advanced', 'Advanced'),
+    )
+
+    years_of = (
+        ('1 year <', '1 year <'),
+        ('1 - 2 years', '1 - 2 years'),
+        ('2 - 5 years', '2 - 5 years'),
+        ('5 - 10 years', '5 - 10 years'),
+        ('10+ years', '10+ years'),
+
+
+    )
+    employee = models.ForeignKey(
+        Employee, on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length=200, blank=True)
+    level = models.CharField(max_length=200, blank=False, choices=skill_level)
+    years_of = models.CharField(max_length=200, blank=True, choices=years_of)
+    description = models.TextField(max_length=400, blank=True)
+
+    def __str__(self):
+        return str(self.title)
+
+
+class JobSkill(models.Model):
+    skill_level = (
+        ('Beginner', 'Beginner'),
+        ('Intermediate', 'Intermediate'),
+        ('Advanced', 'Advanced'),
+    )
+
+    years_of = (
+        ('1 year <', '1 year <'),
+        ('1 - 2 years', '1 - 2 years'),
+        ('2 - 5 years', '2 - 5 years'),
+        ('5 - 10 years', '5 - 10 years'),
+        ('10+ years', '10+ years'),
+
+
+    )
+    job = models.ForeignKey(
+        Job, on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length=200, blank=True)
+    level = models.CharField(max_length=200, blank=False, choices=skill_level)
+    years_of = models.CharField(max_length=200, blank=True, choices=years_of)
+    description = models.TextField(max_length=400, blank=True)
+
+    def __str__(self):
+        return str(self.title)
+
+
+class MatchedSkills(models.Model):
+    application = models.ForeignKey(
+        Application, on_delete=models.CASCADE, null=True)
+    title = models.CharField(max_length=200, blank=True)

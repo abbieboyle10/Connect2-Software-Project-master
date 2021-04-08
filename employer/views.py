@@ -15,8 +15,8 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 
 from account.decorators import employee_required, employee_check
-from account.models import Employer, Job, Employee
-from .forms import JobForm, PersonForm, EmployerModelForm
+from account.models import Employer, Job, Employee, MatchedSkills, Application
+from .forms import JobForm, EmployerModelForm
 import pickle
 import os
 import numpy as np
@@ -65,17 +65,53 @@ def jobprofile(request, pk):
     employer = Employer.objects.get(user=request.user)
 
     jobs = Job.objects.filter(pk=pk)
-    test = Job.objects.get(pk=pk)
-    applications = test.application_set.all()
+    test = Job.objects.get(id=pk)
+    applications = test.application_set.all().order_by('-score')
+    matchedskills = MatchedSkills.objects.filter(
+        application__in=applications)
+
+    print(matchedskills)
     context = {
         'employer': employer,
         'jobs': jobs,
         'applications': applications,
+        'matchedskills': matchedskills,
+        'test': test,
 
 
 
     }
     return render(request, 'employer/job_profile.html', context)
+
+
+def deleteApplication(request, pk):
+    employer = Employer.objects.get(user=request.user)
+    application = Application.objects.get(id=pk)
+    jobs = employer.job_set.all()
+    if request.method == "POST":
+        application.delete()
+        return HttpResponseRedirect(reverse('employer-home'))
+
+    context = {'item': application,
+               'jobs': jobs, }
+    return render(request, 'employer/delete.html', context)
+
+
+def likeview(request, pk, id):
+
+    employer = Employer.objects.get(user=request.user)
+    application = get_object_or_404(
+        Application, id=request.POST.get('application_id'))
+    job = Job.objects.get(pk=pk)
+    print(job)
+    if application.favourited == False:
+        application.favourited = True
+        application.save()
+    else:
+        application.favourited = False
+        application.save()
+
+    return HttpResponseRedirect(reverse('jobprofile', args=[int(pk)]))
 
 
 def jobs(request):
@@ -110,7 +146,7 @@ def browse(request):
 
 def createDes(request):
 
-    form2 = PersonForm()
+    form2 = EmployerModelForm()
     employer = Employer.objects.get(user=request.user)
     jobs = employer.job_set.all()
 
@@ -119,7 +155,7 @@ def createDes(request):
 
     if request.method == 'POST':
         # print('Printing POST:', request.POST)
-        form2 = PersonForm(request.POST)
+        form2 = EmployerModelForm(request.POST)
         if form2.is_valid():
             form2.save()
             return HttpResponseRedirect(reverse('employer-home'))
@@ -131,8 +167,8 @@ def createDes(request):
 
 
 def createJob(request):
-
-    form2 = PersonForm()
+    user = request.user
+    form2 = EmployerModelForm()
     employer = Employer.objects.get(user=request.user)
     jobs = employer.job_set.all()
     form = JobForm(request.POST or None,
@@ -147,9 +183,38 @@ def createJob(request):
         if form.is_valid():
             hiya = form.save(commit=False)
             hiya.employer = employer
-            hiya.save()
+            hiya.status = "Open"
+            sample = request.POST.get('description_personality')
+            test_requests = tuple([sample])
+            print(test_requests)
+            tags_split = [['sj'], ['sj'], ['nt'], ['nf'], ['sp'], ['nt'], ['sj'], ['nf'], ['sp'], ['sp'], ['sj'], ['sp'], ['sp'], ['nf'], ['nf'], ['sp'], ['sp'], ['sj'], ['nt'], ['nt'], ['sp'], [
+                'sj'], ['sj'], ['sj'], ['sj'], ['nt'], ['sj'], ['nf'], ['nf'], ['nf'], ['nf'], ['sp'], ['nt'], ['sj'], ['nf'], ['nf'], ['sj'], ['sj'], ['sj'], ['nf'], ['nt'], ['sj'], ['nt'], ['nf']]
+            tag_encoder = MultiLabelBinarizer()
+            tag_encoded = tag_encoder.fit_transform(tags_split)
+            num_tag = len(tag_encoded[0])
 
-            return HttpResponseRedirect(reverse('createDes'))
+            classifier = CustomModelPrediction.from_path('.')
+            results = classifier.predict(test_requests)
+            print(results)
+
+            for i in range(len(results)):
+                print('Predicted labels:')
+                for idx, val in enumerate(results[i]):
+                    if val > 0.6:
+                        print(tag_encoder.classes_[idx])
+                        personality = tag_encoder.classes_[idx]
+                        print(personality)
+                print('\n')
+                hiya.ideal_person = personality
+
+                hiya.save()
+                context = {
+                    'user': user,
+
+
+
+                }
+            return render(request, 'employer/employer-home.html', context)
 
     context = {'form': form,
                }

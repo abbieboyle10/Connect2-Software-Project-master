@@ -30,7 +30,7 @@ class ApplyJobForm(forms.ModelForm):
 
 class SkillForm(ModelForm):
     class Meta:
-        model = Skill
+        model = EmployeeSkill
         fields = '__all__'
 
 
