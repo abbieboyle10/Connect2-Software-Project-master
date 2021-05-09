@@ -20,12 +20,15 @@
             </li>
             <li class="nav-item">
 
-
+                <a class="nav-link" href="{% url 'employee_applications' %}">Applications</a>
 
 
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="{% url 'findjob'  %}">Find Job</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'notifications'  %}" class="navbar-item">Notifications ({{ notifications.count }})</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout'  %}">Logout</a>

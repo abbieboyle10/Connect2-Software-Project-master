@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'nested_admin',
 
-    'account', 'employee', 'employer', 'personality',
+    'account', 'employee', 'employer', 'personality', 'notifications'
 ]
 
 MIDDLEWARE = [
@@ -67,12 +67,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'notifications.context_processors.notifications',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'connect.wsgi.application'
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
 
 
 # Database
@@ -119,7 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Dublin'
 
 USE_I18N = True
 

@@ -7,6 +7,7 @@
     <tr>
         <th>Title</th>
         <th>Company</th>
+        <th> Status </th>
         <th>Date Posted</th>
     </tr>
 
@@ -15,6 +16,8 @@
 
         <td><a class="nav-link" href="{% url 'jobprofile' pk=job.pk %}">{{job.title}}</a></td>
         <td>{{job.employer}}</td>
+        <td> {{job.status}} </td>
+
         <td>{{job.date_created}}</td>
 
         {% endfor %}

@@ -1,0 +1,50 @@
+{% extends 'employee/core.html' %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn  btn-secondary" href="{% url 'employee_applications' %}">Back</a>
+        </div>
+        <div class="col-md-9">
+            <h2 class="subtitle">Your application for {{ app.job }}</h2>
+
+            <small>Date added: {{ app.created }}</small>
+
+
+
+            <hr>
+
+            <h2 class="subtitle">Messages</h2>
+
+            {% for message in app.conversationmessages.all %}
+            <div class="notification">
+                <b>{{ message.created_by.username }} - {{ message.created_at|timesince }} ago</b><br>
+
+                {{ message.content }}
+            </div>
+            {% empty %}
+            <p>No messages yet...</p>
+
+            <hr>
+            {% endfor %}
+
+            <form method="post" action=".">
+                {% csrf_token %}
+
+                <div class="field">
+                    <div class="control">
+                        <textarea class="textarea" placeholder="Your message" name="content" id="id_content"></textarea>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <button class="button is-success">Send</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

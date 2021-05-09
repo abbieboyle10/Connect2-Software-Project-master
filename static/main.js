@@ -38,3 +38,8 @@ $(document).on('click', '#like-button', function (e) {
         }
     });
 })
+
+
+$(function () {
+    $('#datetimepicker1').datetimepicker();
+});

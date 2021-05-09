@@ -5,6 +5,22 @@ from django.http import JsonResponse
 from account.models import Employee
 
 
+def RationalsView(request):
+    employee = Employee.objects.get(user=request.user)
+    personality = Personality.objects.get(employee=employee)
+    context = {
+        'employee': employee,
+    }
+    if personality.group == 'nt':
+        return render(request, 'personality/nt.html', context)
+    elif personality.group == 'nf':
+        return render(request, 'personality/nf.html', context)
+    elif personality.group == 'sp':
+        return render(request, 'personality/sp.html', context)
+    else:
+        return render(request, 'personality/sj.html', context)
+
+
 class QuizListView(ListView):
     model = Quiz
     template_name = 'personality/homequiz.html'
@@ -306,4 +322,3 @@ def save_quiz_view(request, pk):
                                               n_score=n_score, f_score=f_score, t_score=t_score, j_score=j_score, p_score=p_score)
                         Personality.objects.create(
                             first_letter='i', second_letter='s', third_letter='t', fourth_letter='p', person_type='istp', employee=employee, group='sp', is_complete=True)
-                return render(request, 'employee/profile.html', context)

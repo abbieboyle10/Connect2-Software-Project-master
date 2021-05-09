@@ -1,0 +1,163 @@
+{% extends 'personality/main.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <div id="nthead">
+                        <h1> You are part of the Beaver Group!</h1>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <hr>
+                    <h3>
+                        About You
+                    </h3>
+                    <p>
+                        Your work animal type is a <strong> beaver </strong> <br> <br>
+                        Beavers are hard working and pride
+                        themselves on their loyalty and dependability. Beavers have natural talent in managing goods and
+                        services--from supervision to maintenance and supply -- and they use all their skills to keep
+                        things running smoothly
+                        <br>
+                        <br>
+
+                        Beavers are traditionalists who like structure, routine, and security. They strive to be
+                        organised and systematic. Beavers have the ability to take charge and are extremely responsible.
+                    </p>
+
+
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'beaver.png' %}" class="img-fluid" alt="Responsive image" id="fox">
+                </div>
+                <div class="col-md-4">
+
+                    <hr>
+                    <h3>
+                        Your Work Style
+                    </h3>
+
+                    <p>
+                        Want to take actions that are useful, practical, and economical <br>
+                        Thrive in stable and organized environments that focus on the ‘real world’<br>
+                        Meticulous about schedules and have a sharp eye for proper
+                        procedures <br> <br>
+                        Believe in following the rules and cooperating with
+                        others
+                        <br>
+                        Attracted to careers in business, services, banking, accounting, civil services, or operations
+                        <br>
+                        Prefer to have well-defined tasks and roles
+                        <br>
+
+                    </p>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <hr>
+                    <img src="{% static 'puzzle.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+
+                </div>
+                <div class="col-md-4" id="textalign">
+                    <hr>
+                    <h3> Your Strengths </h3>
+                    <p>
+                        Dependable<br> <br>
+                        Hard Working <br> <br>
+                        Brave<br> <br>
+                        Detail Oriented <br><br>
+                        Practical <br><br>
+                        Realistic <br><br>
+                        Organised <br><br>
+                    </p>
+
+                </div>
+                <div class="col-md-4">
+                    <hr>
+                    <img src="{% static 'puzzle.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+
+                </div>
+            </div>
+            <hr>
+            <p id="textalign">
+                You are a beaver. Beavers can be described as industrious, methodical, organised, responsible and group
+                oriented. If there’s a job
+                to be done, beavers can be counted on to put their shoulder to the wheel. People who share this
+                temperament tend to take a practical and decisive approach. Beavers
+                generally prefer their activities to be clearly defined and like to structure their time and efforts.
+                They are are concerned citizens who trust authority, join groups, seek security, prize
+                gratitude, and dream of meting out justice. Practical and down-to-earth, beavers believe in following
+                the rules and cooperating with
+                others. They are not very comfortable winging it or blazing new trails; working steadily within
+                the system is the beaver way, for in the long run loyalty, discipline, and teamwork get the job
+                done right
+
+            </p>
+        </div>
+
+    </div>
+    <img src="{% static 'working.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+    <div class="row" id="endnt">
+
+        <div class="col-md-8">
+            <p> Ready to add your animal to your profile?</p>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-block btn-sm btn-outline-secondary" data-toggle="modal"
+                data-target="#roundModal">
+                Save
+            </button>
+        </div>
+    </div>
+
+
+</div>
+<div class="modal fade" id="roundModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">You are now adding your animal to your profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+
+                        <p> Your animal will appear on your profile and you soon will be matched with employers looking
+                            for your type</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+
+
+                <a class="button" class="btn btn-secondary" href="{% url 'employee-profile'  %}">Ok</button>
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}

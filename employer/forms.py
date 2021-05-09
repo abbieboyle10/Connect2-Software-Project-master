@@ -43,3 +43,17 @@ class JobForm(ModelForm):
             'description_personality': forms.TextInput(attrs={'class': 'form-control'}),
             'enviornment': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+
+class InterviewForm(ModelForm):
+    class Meta:
+        model = InterviewPlan
+        date = forms.DateTimeField(input_formats=['%m/%d/%Y %H:%M'])
+        fields = ('date',  'location',
+                  'platform',)
+        labels = {
+            "date": "Date of interview",
+            "location": "Location",
+            "platform": "Platform",
+
+        }

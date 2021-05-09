@@ -1,0 +1,150 @@
+{% extends 'personality/main.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <div id="nthead">
+                        <h1> You are part of the Rational Group!</h1>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <hr>
+                    <h3>
+                        About You
+                    </h3>
+                    <p>
+                        Your work animal type is an <strong> owl </strong> <br> <br>
+                        This means you
+                        driven by a strong need to understand the complexities of the universe and to explore new
+                        theories, concepts, and ideas.
+                        <br>
+                        <br>
+
+                        You
+                        are innovative, progressive, and are often ambitious and independent.
+                    </p>
+
+
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'owls.png' %}" class="img-fluid" alt="Responsive image" id="owl">
+                </div>
+                <div class="col-md-4">
+
+                    <hr>
+                    <h3>
+                        Your Work Style
+                    </h3>
+
+                    <p>
+                        You hunger for competency and knowlegde <br>
+                        Work well with ideas and concepts <br>
+                        Intrigued and challenged by riddles <br> <br>
+                        See life as a system to be desinged and redesigned <br>
+                        Attracted to careers in technology, science, computing, medicine, or law <br>
+                        You enjoy visioning, innovating, and designing <br>
+                    </p>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <hr>
+                    <img src="{% static 'puzzle.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+
+                </div>
+                <div class="col-md-4" id="textalign">
+                    <hr>
+                    <h3> Your Strengths </h3>
+                    <p>
+                        Logical <br> <br>
+                        Competent <br> <br>
+                        Independent Thinker <br> <br>
+                        Determined <br><br>
+                        Objective <br><br>
+                        Imaginative <br><br>
+                        Enthusiastic <br><br>
+                    </p>
+
+                </div>
+                <div class="col-md-4">
+                    <hr>
+                    <img src="{% static 'puzzle.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+
+                </div>
+            </div>
+            <hr>
+            <p id="textalign">
+                You are an owl. Owls typically take a “what else can we do” approach to leadership. They tend to
+                consider new ways to address tasks and projects, and often have an innovative mind-set that is about
+                changing things up to make a situation better.
+                Seeking mastery and self-control, they are concerned with their own knowledge and competence. Their
+                greatest strength is strategy. They excel in any kind of logical investigation such as engineering,
+                conceptualizing, theorizing, and coordinating.
+            </p>
+        </div>
+
+    </div>
+    <img src="{% static 'rationals.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+    <div class="row" id="endnt">
+
+        <div class="col-md-8">
+            <p> Ready to add your animal to your profile?</p>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-block btn-sm btn-outline-secondary" data-toggle="modal"
+                data-target="#roundModal">
+                Save
+            </button>
+        </div>
+    </div>
+
+
+</div>
+<div class="modal fade" id="roundModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">You are now adding your animal to your profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+
+                        <p> Your animal will appear on your profile and you soon will be matched with employers looking
+                            for your type</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+
+
+                <a class="button" class="btn btn-secondary" href="{% url 'employee-profile'  %}">Ok</button>
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}

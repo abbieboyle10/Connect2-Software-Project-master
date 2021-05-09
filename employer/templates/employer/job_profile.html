@@ -7,31 +7,59 @@
     <div class="row">
         <div class="col-md-12">
 
+            {% if job.status == 'Open' %}
 
             <h3 class="text-center">
-                {{job.title}} <br> {{job.employer}}
+                {{job.title}} <br> {{job.employer}} <br> Round:{{job.job_round}}
+            </h3>
+
+            <h3 class="text-center">
+
             </h3>
         </div>
     </div>
     <div class="row" id="jobbuttons">
         <div class="col-md-4">
-            <button type="button" class="btn btn-block btn-sm btn-outline-secondary">
+            <button type="button" class="btn btn-block btn-sm btn-outline-secondary" data-toggle="modal"
+                data-target="#roundModal">
                 New Round
             </button>
         </div>
         <div class="col-md-4">
 
-            <button type="button" class="btn btn-sm btn-block btn-outline-info">
+            <button type="button" class="btn btn-sm btn-block btn-outline-info" data-toggle="modal"
+                data-target="#interviewModal">
                 Interview
             </button>
         </div>
         <div class="col-md-4">
 
-            <button type="button" class="btn btn-block btn-sm btn-outline-danger">
+            <button type="button" class="btn btn-block btn-sm btn-outline-danger" data-toggle="modal"
+                data-target="#closeModal">
                 Close Job
             </button>
         </div>
     </div>
+    {% elif job.status == 'Closed'%}
+    <h3>This job has been closed</h3>
+    <div class="row" id="jobbuttons">
+        <div class="col-md-4">
+
+            <button type="button" class="btn btn-sm btn-block btn-outline-info" data-toggle="modal"
+                data-target="#interviewModal">
+                Interview
+            </button>
+        </div>
+    </div>
+    {% else %}
+    <div class="row" id="jobbuttons">
+        <div class="col-md-4">
+            <h3> Your job is at interview stage</h3>
+
+        </div>
+    </div>
+
+    {% endif %}
 
     <div class="row">
 
@@ -74,19 +102,35 @@
         <div class="col-md-9">
             <table class="table table-sm">
                 <tr>
+                    {% if job.status == 'Interview' %}
                     <th>#</th>
                     <th>Applied</th>
                     <th>Personality</th>
                     <th>Score</th>
                     <th> Common Skills</th>
-                    <th> Cover Letterr</th>
+                    <th> Cover Letter</th>
+                    <th> Stage</th>
+                    <th> Contact </th>
+                    <th> Interview </th>
+
+                    {% else %}
+                    <th>#</th>
+                    <th>Applied</th>
+                    <th>Personality</th>
+                    <th>Score</th>
+                    <th> Common Skills</th>
+                    <th> Cover Letter</th>
                     <th> Highlight </th>
-                    <th> </th>
+                    <th> Round</th>
+
+                    {% endif %}
+
                 </tr>
 
                 {% for application in applications %}
 
                 <tr>
+
                     <td class="counterCell"></td>
 
 
@@ -97,17 +141,23 @@
                     <td> <img src="{% static 'purple.png' %}" class="img-fluid" alt="Responsive image" id="greentic">
                     </td>
                     {% else %}
-                    <td> </td>
+
+                    <td> <img src="{% static 'unnamed.png' %}" class="img-fluid" alt="Responsive image" id="redex">
+                    </td>
                     {% endif %}
 
                     <td> {{application.score}} </td>
-                    <td> {% for matchedskill in matchedskills %} {{matchedskill.title}}, {% endfor %}</td>
+                    <td> {% for matchedskill in application.sorted_apps %}
+                        <p> {{matchedskill.title}} </p> {% endfor %}
+                    </td>
+
 
                     <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                             data-whatever={{application.cover_letter}}>
                             Cover Letter
                         </button></td>
                     <td>
+                        {% if job.status == 'Open' %}
                         <form action="{% url 'likeview' id=application.id pk=test.pk %}" method="POST">
                             {% csrf_token %}
                             <button type="submit" button class="btn btn-link text-dark p-0 border-0 btn-outline-light"
@@ -126,10 +176,54 @@
                                 </svg>
 
                                 {% endif %}
+                                {% else %}
+                                <p> {{job.status}}</p>
+                                {% endif %}
                         </form>
 
                         </button>
                     </td>
+                    {% if job.status == 'Open' %}
+                    <td> {{application.job_round}}</td>
+                    {% else %}
+
+                    {% endif %}
+                    <td><a class="btn  btn-danger"
+                            href="{% url 'view_application' id=application.id pk=test.pk  %}">Message</a>
+                    </td>
+                    <td> {% if job.status == 'Interview' %}
+                        {% if application.interview == True %}
+                        <a class="btn btn-sm btn-block btn-outline-info"
+                            href="{% url 'scheduleInterview' id=application.id pk=test.pk  %}">
+                            Schedule
+                        </a>
+                        {% else %}
+                        {% for interviewplan in application.sorted_apps2 %}
+
+
+                        <p> {{interviewplan.date}} </p>
+                        {% endfor %}
+
+                        {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        {% else %}
+                        <a class="btn  btn-danger" href="{% url 'delete_application' application.id %}">Delete</a>
+                        {% endif %}
+
+                    </td>
+
 
 
                     {% endfor %}
@@ -171,6 +265,148 @@
     </div>
 </div>
 
+<div class="modal fade" id="roundModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure you wish to create a new round?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+
+                        <p> This will forward your highlighted applications to the next round and DELETE all
+                            applications which have not been highlighted.</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'nextround' pk=test.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" value="{{test.pk}}">
+                        Delete </button>
+                </form>
+
+                <button type=" button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="closeModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure you wish to close this job?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+
+                        <p> This will close your job listing. Employee users will no longer be able to apply for this
+                            position. You will still have access to your messages with existing applicants.</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'closejob' pk=test.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" value="{{test.pk}}">
+                        Close Job </button>
+                </form>
+
+                <button type=" button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="interviewModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure you wish to interview the highlighted
+                    candidates? </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+
+                        <p> This will issue an interview invtie via message to each highlighted application. our job
+                            posting will also be closed.</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'createInterview' pk=test.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" value="{{test.pk}}">
+                        Close Job </button>
+                </form>
+
+                <button type=" button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Schedule an interview with this applicant
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="form-group">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {{form}}
+                        <hr>
+                        <div class="text-center">
+                            <input type="submit" name="Submit" class="btn btn-success btn-lg">
+                        </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'createInterview' pk=test.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" value="{{test.pk}}">
+                        Close Job </button>
+                </form>
+
+                <button type=" button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 
 
@@ -183,66 +419,3 @@
 {% endfor %}
 
 {% endblock %}
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12">
-
-            <button type="button" class="btn btn-sm btn-outline-primary">
-                {{job.status}}
-            </button>
-            <h3 class="text-center">
-                {{job.title}} - {{job.employer}}
-            </h3>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-        </div>
-        <div class="col-md-4">
-
-            <button type="button" class="btn btn-sm btn-block btn-outline-info">
-                Button
-            </button>
-        </div>
-        <div class="col-md-4">
-
-            <button type="button" class="btn btn-block btn-sm btn-outline-secondary">
-                Button
-            </button>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-3">
-            <dl>
-                <dt>
-                    Job title
-                </dt>
-                <dd>
-                    {{job.title}}
-                </dd>
-                <dt>
-                    Employer
-                </dt>
-                <dd>
-                    {{job.employer}}
-                </dd>
-                <dt>
-                    Date Posted
-                </dt>
-                <dd>
-                    {{job.created}}
-                </dd>
-                <dt>
-                    Contract
-                </dt>
-                <dd>
-                    {{job.contract}}
-                </dd>
-
-            </dl>
-        </div>
-        <div class="col-md-9">
-        </div>
-    </div>
-</div>

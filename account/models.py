@@ -132,6 +132,8 @@ class Job(models.Model):
     STATUS = (
         ('Open', 'Open'),
         ('Closed', 'Closed'),
+        ('Interview', 'Interview'),
+
 
     )
     CONTRACT = (
@@ -168,6 +170,7 @@ class Job(models.Model):
     enviornment = models.TextField(
         max_length=2000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
+    job_round = models.IntegerField(null=True, default=1)
 
 # need to add skill list!
 
@@ -195,9 +198,16 @@ class Application(models.Model):
     job_type = models.CharField(max_length=15, null=True)
     match = models.BooleanField(default=False)
     favourited = models.BooleanField(default=False)
+    interview = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.candidate}-{self.job}-{self.status}"
+
+    def sorted_apps(self):
+        return self.matchedskills_set.all().order_by('title')
+
+    def sorted_apps2(self):
+        return self.interviewplan_set.all().order_by('date')
 
 
 class EmployeeSkill(models.Model):
@@ -258,3 +268,41 @@ class MatchedSkills(models.Model):
     application = models.ForeignKey(
         Application, on_delete=models.CASCADE, null=True)
     title = models.CharField(max_length=200, blank=True)
+
+
+class ConversationMessage(models.Model):
+    application = models.ForeignKey(
+        Application, related_name='conversationmessages', on_delete=models.CASCADE)
+    content = models.TextField()
+    employer = models.ForeignKey(
+        Employer, related_name='conversationmessages', on_delete=models.CASCADE, null=True)
+    employee = models.ForeignKey(
+        Employee, related_name='conversationmessages', on_delete=models.CASCADE, null=True)
+
+    created_by = models.ForeignKey(
+        User, related_name='conversationmessages', on_delete=models.CASCADE, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['created_at']
+
+
+class InterviewPlan(models.Model):
+    locations = (
+        ('In person', 'In person'),
+        ('Remote', 'Remote'),
+
+    )
+    platforms = (
+        ('Zoom', 'Zoom'),
+        ('MS Teams', 'MS Teams'),
+        ('Other', 'Other'),
+
+    )
+    application = models.ForeignKey(
+        Application, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=False)
+    time = models.TextField(null=True)
+    location = models.CharField(max_length=200, blank=False, choices=locations)
+    platform = models.CharField(max_length=200, blank=False, choices=platforms)
+    confirmed = models.BooleanField(default=False)

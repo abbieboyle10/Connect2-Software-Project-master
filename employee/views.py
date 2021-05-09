@@ -9,11 +9,12 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 
 from account.decorators import employee_required, employee_check
-from account.models import Employee, EmployeeSkill, Job, MatchedSkills
+from account.models import Employee, EmployeeSkill, Job, MatchedSkills, Application, User, ConversationMessage
 from .forms import SkillForm, ExperienceForm
 from django.contrib.auth.decorators import user_passes_test
 from personality.models import Quiz, Result, Personality
 from .forms import EmployeeModelForm, ApplyJobForm
+from notifications.utilities import create_notification
 
 
 @user_passes_test(employee_check, login_url='employer-home')
@@ -152,6 +153,12 @@ def viewjob(request, pk):
             application.person_type = person_type
             application.job_type = job_type
             application.save()
+            app = application
+
+            create_notification(request, job.employer.user, application.job, app,
+                                'application', extra_id=application.id)
+
+            application.save()
             score = 0
             print(job_type)
             print(person_type)
@@ -188,3 +195,49 @@ def viewjob(request, pk):
 
     }
     return render(request, 'employee/viewjob.html', context)
+
+
+def employee_applications(request):
+
+    employee = Employee.objects.get(user=request.user)
+
+    applications = Application.objects.filter(candidate=employee)
+    context = {
+        'employee': employee,
+        'applications': applications
+    }
+    return render(request, 'employee/applications.html', context)
+
+
+def view_application(request, id, pk):
+    app = get_object_or_404(
+        Application, id=id)
+
+    user = request.user
+    test = Job.objects.get(pk=pk)
+    context = {
+
+        'app': app,
+        'test': test
+    }
+
+    if request.method == 'POST':
+        content = request.POST.get('content')
+
+        if content:
+            conversationmessage = ConversationMessage.objects.create(
+                application=app, content=content, created_by=request.user)
+            if request.user.is_employee == True:
+                create_notification(request, test.employer.user, app.job, app,
+                                    'message', extra_id=app.id)
+                print("employee")
+            else:
+                create_notification(request, app.candidate.user, app.job, app,
+                                    'message', extra_id=app.id)
+                print("employer")
+
+            return redirect('view_application', id=app.id, pk=test.pk)
+    if request.user.is_employer:
+        return render(request, 'employer/message.html', context)
+    else:
+        return render(request, 'employee/message.html', context)

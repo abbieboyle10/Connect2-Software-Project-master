@@ -1,0 +1,152 @@
+{% extends 'personality/main.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-4">
+                    <div id="nthead">
+                        <h1> You are part of the Fox Group!</h1>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-4">
+                    <hr>
+                    <h3>
+                        About You
+                    </h3>
+                    <p>
+                        Your work animal type is a <strong> fox </strong> <br> <br>
+                        This means you
+                        take a practical and spontaneous approach. Foxes are less likely to spend a lot of time
+                        pondering about the future, and are often most interested in acting right away.
+                        <br>
+                        <br>
+
+                        Foxes prefer hands on work. You excel at troubleshooting, agility,
+                        and the manipulation of tools, instruments, and equipment.
+                    </p>
+
+
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'fox.png' %}" class="img-fluid" alt="Responsive image" id="fox">
+                </div>
+                <div class="col-md-4">
+
+                    <hr>
+                    <h3>
+                        Your Work Style
+                    </h3>
+
+                    <p>
+                        You hunger for freedom and action <br>
+                        Work well with realistic problems <br>
+                        Flexible and open minded <br> <br>
+                        Higly negotiable and willing to take risks <br>
+                        Attracted to careers in law enforcement, crafts, technology, skilled trades, or emergency
+                        response <br>
+                        Enjoy practical helping or troubleshooting <br>
+                    </p>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <hr>
+                    <img src="{% static 'puzzle.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+
+                </div>
+                <div class="col-md-4" id="textalign">
+                    <hr>
+                    <h3> Your Strengths </h3>
+                    <p>
+                        Practical<br> <br>
+                        Realistic <br> <br>
+                        Resourcefulness<br> <br>
+                        Adept problem-solving skills <br><br>
+                        A special sense of immediate needs <br><br>
+                        Observant <br><br>
+                        Action oriented <br><br>
+                    </p>
+
+                </div>
+                <div class="col-md-4">
+                    <hr>
+                    <img src="{% static 'puzzle.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+
+                </div>
+            </div>
+            <hr>
+            <p id="textalign">
+                You are a fox. Foxes can be descirbed as observant, adaptable, clever, adventurous and action oriented.
+                Foxes are great at resolving and responding to crises and are geniuses at generating solutions. Foxes
+                have exceptionally
+                keen senses, and love working with their hands. They seem right at home with tools, instruments,
+                and vehicles of all kinds, and their actions are usually aimed at getting them where they want to
+                go, and as quickly as possible. They will strike off boldly down roads that others might
+                consider risky or impossible, doing whatever it takes, rules or no rules, to accomplish their goals.
+            </p>
+        </div>
+
+    </div>
+    <img src="{% static 'adventure.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+    <div class="row" id="endnt">
+
+        <div class="col-md-8">
+            <p> Ready to add your animal to your profile?</p>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-block btn-sm btn-outline-secondary" data-toggle="modal"
+                data-target="#roundModal">
+                Save
+            </button>
+        </div>
+    </div>
+
+
+</div>
+<div class="modal fade" id="roundModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">You are now adding your animal to your profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+
+                        <p> Your animal will appear on your profile and you soon will be matched with employers looking
+                            for your type</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+
+
+                <a class="button" class="btn btn-secondary" href="{% url 'employee-profile'  %}">Ok</button>
+
+            </div>
+        </div>
+    </div>
+    {% endblock %}

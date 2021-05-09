@@ -1,0 +1,108 @@
+{% block content %}
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href={% static 'core.css' %}>
+    <link rel="stylesheet" href="{% static 'date-time-phone/jquery-ui.css' %}">
+    <link rel='stylesheet' href="{% static 'date-time-phone/jquery-ui-timepicker-addon.css' %}" />
+    <title>Home</title>
+</head>
+{% if request.user.is_employee == True %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <a class="navbar-brand" href="{% url 'employee-home' %}">Connect2</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'employee-home'   %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'employee-profile'  %}">Profile</a>
+            </li>
+            <li class="nav-item">
+
+                <a class="nav-link" href="{% url 'employee_applications' %}">Applications</a>
+
+
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="{% url 'findjob'  %}">Find Job</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'notifications'  %}" class="navbar-item">Notifications ({{ notifications.count }})</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout'  %}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+{% else %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <a class="navbar-brand" href="{% url 'employer-home' %}">Connect2</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'employer-home'  %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'employer-profile'  %}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'jobs'  %}">Your Jobs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " href="{% url 'browse'  %}">Browse Employees</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout'  %}">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'notifications'  %}" class="navbar-item">Notifications ({{ notifications.count }})</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endif %}
+<div class="container">
+    <h1 class="title">Notifications</h1>
+
+    {% if not notifications %}
+    No notifications yet!
+    {% endif %}
+
+    {% for notification in notifications %}
+    <div class="notification">
+        <p>
+            {% if notification.notification_type == 'message' %}
+            <a
+                href="{% url 'notifications' %}?goto=view_application&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
+                <strong> You have a new message </strong> <br>
+                <small>{{ notification.created_at|timesince }} ago</small>
+            </a>
+            {% elif notification.notification_type == 'application' %}
+            <a
+                href="{% url 'notifications' %}?goto=view_application&notification={{ notification.id }}&extra_id={{ notification.extra_id }}">
+                <strong>1 new application for your job {{job.title}} </strong> <br>
+                <small>{{ notification.created_at|timesince }} ago</small>
+            </a>
+            {% endif %}
+        </p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

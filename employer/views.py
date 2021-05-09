@@ -15,12 +15,13 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
 
 from account.decorators import employee_required, employee_check
-from account.models import Employer, Job, Employee, MatchedSkills, Application
-from .forms import JobForm, EmployerModelForm
+from account.models import Employer, Job, Employee, MatchedSkills, Application, ConversationMessage
+from .forms import JobForm, EmployerModelForm, InterviewForm
 import pickle
 import os
 import numpy as np
 from sklearn.preprocessing import MultiLabelBinarizer
+from notifications.utilities import create_notification
 
 
 def employer_home(request):
@@ -67,15 +68,14 @@ def jobprofile(request, pk):
     jobs = Job.objects.filter(pk=pk)
     test = Job.objects.get(id=pk)
     applications = test.application_set.all().order_by('-score')
-    matchedskills = MatchedSkills.objects.filter(
-        application__in=applications)
+    print(applications)
+    application = Application.objects.filter(job=test)
 
-    print(matchedskills)
     context = {
         'employer': employer,
         'jobs': jobs,
         'applications': applications,
-        'matchedskills': matchedskills,
+
         'test': test,
 
 
@@ -255,3 +255,89 @@ def predictPerson(request):
 
     }
     return render(request, 'employer/employer-home.html', context)
+
+
+def nextround(request, pk):
+    job = Job.objects.get(pk=pk)
+    print(job)
+    applications = job.application_set.all()
+    for application in applications:
+        if application.favourited == False:
+            application.delete()
+        else:
+            application.job_round += 1
+            job.job_round += 1
+            job.save()
+            application.save()
+
+    return HttpResponseRedirect(reverse('jobprofile', args=[int(pk)]))
+
+
+def closejob(request, pk):
+    job = Job.objects.get(pk=pk)
+    job.status = 'Closed'
+    employer = Employer.objects.get(user=request.user)
+    jobs = employer.job_set.all()
+    job.save()
+    context = {
+        'jobs': jobs,
+        'employer': employer,
+    }
+    return render(request, 'employer/jobs.html', context)
+
+
+def createInterview(request, pk):
+    job = Job.objects.get(pk=pk)
+    job.status = 'Interview'
+    employer = Employer.objects.get(user=request.user)
+    applications = job.application_set.all()
+    content = "Congratulations, you have been selected for an interview at " + \
+        str(employer)+" please await further details."
+    print(content)
+    for application in applications:
+        if application.favourited == True:
+            conversationmessage = ConversationMessage.objects.create(
+                application=application, content=content, created_by=request.user)
+            create_notification(request, application.candidate.user, application.job, application,
+                                'message', extra_id=application.id)
+            application.interview = True
+            print(application.interview)
+            application.save()
+        else:
+            application.delete()
+
+    jobs = employer.job_set.all()
+    job.save()
+    context = {
+        'jobs': jobs,
+        'employer': employer,
+    }
+    return HttpResponseRedirect(reverse('jobprofile', args=[int(pk)]))
+
+
+def scheduleInterview(request, id, pk):
+    job = Job.objects.get(pk=pk)
+    application = Application.objects.get(id=id)
+    form = InterviewForm(request.POST or None,
+                         request.FILES or None, instance=application)
+
+    context = {
+        'application': application,
+        'form': form,
+    }
+    if request.method == 'POST':
+        # print('Printing POST:', request.POST)
+        form = InterviewForm(request.POST)
+        if form.is_valid():
+            hiya = form.save(commit=False)
+            hiya.application = application
+            hiya.confirmed = True
+            application.interview = False
+            content = "Your interview for "+str(job)+" has been scheduled for "+str(hiya.date)+" at " + str(hiya.time)+". It will be an "+str(hiya.location) + \
+                " interview taking place at "+str(hiya.platform)
+            conversationmessage = ConversationMessage.objects.create(
+                application=application, content=content, created_by=request.user)
+            application.save()
+            hiya.save()
+            return HttpResponseRedirect(reverse('jobprofile', args=[int(pk)]))
+    return render(request, 'employer/schedule.html', context)

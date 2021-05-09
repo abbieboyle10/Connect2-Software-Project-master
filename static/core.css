@@ -36,9 +36,31 @@ text-align: center;
   margin-bottom: 20px;
 }
 
-.col-md-9 {
-  background-color:ghostwhite;
+#redex {
+
+ 
+  height: 40px;
+
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+
+#owl{
   text-align: center;
+  height: 240px;
+  margin-left: 30px;
+}
+#textalign {
+  text-align: center;
+}
+#endnt {
+  margin-top: 50px;
+}
+
+#nthead{
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 #jobbuttons {
