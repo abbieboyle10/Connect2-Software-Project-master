@@ -1,28 +1,58 @@
 {% extends 'employee/core.html' %}
 {% block content %}
-<h1>Find a job</h1>
-<table class="table table-sm">
-    <tr>
-        <th>Title</th>
-        <th>Company</th>
-        <th>Date Posted</th>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10 text-center">
+            <h1> Find a Job!</h1>
+            <form method="get">
+                {{myFilter.form}}
 
-    </tr>
+                <button class="btn btn-primary" type="submit">Search</button>
+                <a class="btn btn-primary" href="{% url 'clearjobs2'  %}"> Clear</a>
+            </form>
+            <table class="table table-sm">
+                <tr>
+                    <th>Title</th>
+                    <th>Company</th>
+                    <th>Date Posted</th>
+                    <th>Location</th>
 
-    {% for job in jobs %}
-    <tr>
+                </tr>
 
-        <td>{{job.title}}</td>
-        <td>{{job.employer}}</td>
-        <td>{{job.date_created}}</td>
-        <td><a class="nav-link" href="{% url 'viewjob' pk=job.pk %}">View</a></td>
+                {% for job in jobs %}
+                {% if job.status == "Open" %}
+
+                {% if job.ideal_person %}
+
+                <tr>
+
+                    <td>{{job.title}}</td>
+                    <td>{{job.employer}}</td>
+                    <td>{{job.date_created}}</td>
+                    <td>{{job.location}}</td>
+                    <td><a class="nav-link" href="{% url 'viewjob' pk=job.pk %}">View</a></td>
+                    {% else %}
 
 
+                    {% endif %}
 
-        {% endfor %}
-    </tr>
+                    {% endif %}
 
 
-    </tr>
-</table>
+                    {% endfor %}
+                </tr>
+
+
+                </tr>
+            </table>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+</div>
+<h1>Top Picks</h1>
+
+
 {% endblock %}

@@ -1,10 +1,45 @@
 {% extends 'employer/core.html' %}
 {% load static %}
 {% block content %}
+<!-- ======= About Section ======= -->
+<section id="about" class="about">
+    <div class="container">
 
+        <div class="row content">
+            <div class="col-lg-6">
+                <div id="heo">
+                    <h2>Create a Job</h2>
+                </div>
+                <img src="{% static 'job_form.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0">
+                <p>
+
+                </p>
+                <div id="wha">
+                    <ul>
+                        <li><i class="ri-check-double-line"></i> Please complete the form below with the relevant
+                            information for you job position.
+                        </li>
+                        <li><i class="ri-check-double-line"></i> Our machine learning algorithms will detect which type
+                            of person you are looking for from the text input.</li>
+                        <li><i class="ri-check-double-line"></i> Candidates will be able to apply to the job direclty
+                            with their Connect2 profiles.</li>
+                    </ul>
+                    <p class="font-italic">
+                        Connect2 will rank job applicats in
+                        against one another, allowing the employer to see which individuals meet the
+                        skills and personality requirements for the position the most.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section><!-- End About Section -->
 
 <div class="container">
-    <img src="{% static 'job_form.png' %}" class="img-fluid" alt="Responsive image" id="job_pic">
+
 
     <div class="card card-body">
         <div class="form-group">
@@ -13,8 +48,41 @@
 
                 {{form}}
                 <hr>
+                <button type="button" class="btn btn-block btn-sm btn-outline-success" data-toggle="modal"
+                    data-target="#closeModal">
+                    Submit
+                </button>
                 <div class="text-center">
-                    <input type="submit" name="Submit" class="btn btn-success btn-lg">
+                    <div class="modal fade" id="closeModal" tabindex="-1" role="dialog"
+                        aria-labelledby="roundModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Are you sure you wish to submit
+                                        job?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+
+                                        <div class="form-group">
+
+                                            <p> This will submit and save your job. Our alogirthms will analyse your
+                                                inputted text to understand what type of person you are looking for.
+                                            </p>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" name="Submit" class="get-started-btn ml-auto">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
         </div>

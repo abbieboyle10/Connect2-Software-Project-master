@@ -1,0 +1,216 @@
+{% extends 'employee/core.html' %}
+
+{% block content %}
+{% load static %}
+
+
+<div class="container-fluid" id="employeeprofile">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center" id="jop">
+
+                <ol>
+                    {{employee.first_name}} {{employee.last_name}}
+
+                </ol>
+            </div>
+            <div class="card">
+                <img class="card-img-top" alt="Card image cap" height="100px"
+                    src="https://images.unsplash.com/photo-1617957689187-997a52cd5e76?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=889&q=80">
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4" id="profilething">
+
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="{{employee.avatar.url}}" alt="Admin" class="rounded-circle" width="150">
+                                <div class="mt-3">
+
+                                    <h4>{{employee.first_name}} {{employee.last_name}}</h4>
+                                    <p class="text-secondary mb-1">{{employee.title}}</p>
+                                    <p class="text-muted font-size-sm">{{employee.city}},{{employee.county}}</p>
+                                    <p class="text-muted font-size-sm">{{employee.email}}</p>
+                                    <p class="text-muted font-size-sm">{{employee.phone_number}}</p>
+                                    <div class="actions">
+                                        <button type="button" class="btn btn-dark" data-toggle="modal"
+                                            data-target="#exampleModal">
+                                            Edit your personal details
+                                        </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+
+                <div class="col-md-8" id="thingba">
+
+
+
+
+
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+
+                                {% if personalitys %}
+                                {% for personality in personalitys %}
+
+                                <tr>
+
+
+
+
+
+                                    {% if personality.group == "sj" %}
+                                    <h3> You are part of the beaver group</h3>
+                                    <img src="{% static 'beaver.png' %}" alt="Admin" class="rounded-circle" width="200">
+                                    <p> You are part of the Beaver group</p>
+
+                                    {% elif personality.group == "nt" %}
+                                    <img src="{% static 'owls.png' %}" alt="Admin" class="rounded-circle" width="150">
+                                    <p> You are part of the Owl group</p>
+                                    {% elif personality.group == "sp" %}
+                                    <img src="{% static 'fox.png' %}" alt="Admin" class="rounded-circle" width="150">
+                                    <p> You are part of the Fox group</p>
+                                    {% else %}
+                                    <img src="{% static 'elephant.png' %}" alt="Admin" class="rounded-circle"
+                                        width="150">
+                                    <p> You are part of the Elephant group</p>
+                                    {% endif %}
+
+                                    <p> Your work animal represents who you are as a person and your behavioural
+                                        tendencies in
+                                        work. For more information please click <a href="{% url 'rational'  %}">
+                                            here</a>
+                                        {% endfor %}
+                                        {% else %}
+
+                                        <img src="{% static 'animals.png' %}" class="img-fluid" id="animals"
+                                            alt="Responsive image">
+                                    <p> Your personality animal type has not been found yet. Please complete our
+                                        personality test to discover your type.</p>
+                                    {% for quiz in quizs %}
+                                    <a class="nav-link" href="{% url 'quiz-home' pk=quiz.pk %}">Animal Work
+                                        Personality Test</a>
+                                    {% endfor %}
+
+
+                                    {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <th>Skills</th>
+                                        <th> Experience</th>
+                                        <th> Tags</th>
+
+
+
+                                    </tr>
+
+                                    {% for skill in skills %}
+
+                                    {% for tag in tags %}
+                                    <tr>
+
+                                        <td>{{skill.title}}</td>
+
+                                        <td>{{tag.category}}</td>
+
+
+
+
+                                        {% endfor %}
+                                        {% endfor %}
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </div>
+                        <div class="row" id="thingz">
+
+                            <div class="col-md-4">
+                                <hr>
+                                <a class="nav-link" href="{% url 'createskill'  %}">Add Skill</a>
+                            </div>
+                            <div class="col-md-4">
+                                <hr>
+                                <a class="nav-link" href="{% url 'createtag'  %}">Add Tag</a>
+                            </div>
+                            <div class="col-md-4">
+                                <hr>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="image content">
+
+                    <div class="description">
+                        <div class="ui header">Provide some additional/newest info about you </div>
+                        <form action="" method="POST" class="ui form" enctype='multipart/form-data'>
+                            {% csrf_token %}
+                            {{form.as_p}}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+
+                <div class="actions">
+                    <button type='submit' class="btn btn-primary">
+                        Update
+                        <i class="checkmark icon"></i>
+                    </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

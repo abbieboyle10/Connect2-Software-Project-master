@@ -1,8 +1,54 @@
 {% extends 'employee/core.html' %}
-
+{% load static %}
 {% block content %}
+<section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Your Employee Profile</h2>
+            <ol>
+                <li>{{employee.first_name}} {{employee.last_name}}</li>
+
+            </ol>
+        </div>
+
+    </div>
+</section>
 <div class="container-fluid">
     <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-4">
+                </div>
+                <div class="col-md-8">
+                    <p> This is your user profile</p>
+                    <div class="col-lg-6 pt-4 pt-lg-0">
+                        <p>
+
+                        </p>
+                        <ul>
+                            <li><i class="ri-check-double-line"></i> Complete our professional personality test to
+                                understand your behavioural tendencies within the professional enviornment!
+                            </li>
+                            <li><i class="ri-check-double-line"></i> Create job listings and allow Connect2 determine
+                                exactly what type of employee you are searching for!</li>
+                            <li><i class="ri-check-double-line"></i> Contact employees and employers direclty using
+                                Connect2. Schedule interviews and more!</li>
+                        </ul>
+                        <p class="font-italic">
+                            Connect2 will rank job applicats in
+                            against one another, allowing the employer to see which individuals meet the
+                            skills and personality requirements for the position the most.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row" id="mainconts">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
@@ -15,7 +61,7 @@
                             <p class="text-muted font-size-sm">{{employee.email}}</p>
                             <p class="text-muted font-size-sm">{{employee.phone_number}}</p>
                             <div class="actions">
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                <button type="button" class="btn btn-dark" data-toggle="modal"
                                     data-target="#exampleModal">
                                     Update your profile
                                 </button>
@@ -28,18 +74,14 @@
         </div>
         <div class="col-md-8">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     {% if personalitys %}
 
 
 
                     {% else %}
 
-                    {% for quiz in quizs %}
-                    <a class="nav-link" href="{% url 'quiz-home' pk=quiz.pk %}">{{quiz.name}}</a>
-                    {% endfor %}
 
-                    {% endif %}
 
 
 
@@ -63,7 +105,38 @@
                         </tr>
                     </table>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    {% if personalitys %}
+
+
+
+                    {% else %}
+
+
+
+
+
+                    <a class="nav-link" href="{% url 'createskill'  %}">Add Tag</a>
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Skill</th>
+                            <th>Level</th>
+                            <th>Years of Experience</th>
+
+                        </tr>
+
+                        {% for skill in skills %}
+                        <tr>
+
+                            <td>{{skill.title}}</td>
+                            <td>{{skill.level}}</td>
+                            <td>{{skill.years_of}}</td>
+
+                            {% endfor %}
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-4">
                     <a class="nav-link" href="{% url 'createexperience'  %}">Add Experience</a>
                     <table class="table table-sm">
                         <tr>
@@ -167,4 +240,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

@@ -1,0 +1,213 @@
+{% extends 'employer/core.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+
+
+<section id="about" class="about">
+    <div class="container">
+
+        <div class="row content">
+            <div class="col-lg-6">
+                <h2>The job is now posted.</h2>
+                <h3>Thank you for choosing Connect2. </h3>
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0">
+                <p>
+                    In the meantime, below is information regarding the predicted ideal personality type for the job you
+                    have listed. Candidates with this personality type will be granted bonus points in our application
+                    ranking system.
+                </p>
+                <p class="font-italic">
+                    Character traits are not something you can teach, so when you need candidates with certain soft
+                    skills, your best bet is to hire based on personality and then teach the hard skills.
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</section><!-- End About Section -->
+
+
+
+<section id="services" class="services">
+    <div class="container">
+        <div class="section-title">
+            <h2>Ideal Personality type</h2>
+            <p>Fox</p>
+        </div>
+        <div class="row">
+
+            <div class="col-md-8">
+                <p> The ideal personality type for this job is Fox. For more infomration on the different animal
+                    types click <a href="{% url 'employer-profile'  %}">here.</a></p>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{% static 'fox.png' %}" class="img-fluid" alt="Responsive image" id="elephant">
+            </div>
+            <div class="col-md-3">
+                <img src="{% static 'fox.png' %}" class="img-fluid" alt="Responsive image" id="elephant">
+            </div>
+            <div class="col-md-3">
+                <img src="{% static 'fox.png' %}" class="img-fluid" alt="Responsive image" id="elephant">
+            </div>
+            <div class="col-md-3">
+                <img src="{% static 'fox.png' %}" class="img-fluid" alt="Responsive image" id="elephant">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="icon-box">
+                    <i class="icofont-computer"></i>
+                    <h4><a href="#">Action Oriented</a></h4>
+                    <p> Foxes are the most action oriented folk of them all. They absorb information through sensation;
+                        what they can see, smell, touch, taste, and hear. They are extremely aware of their outer
+                        environments and how to adapt to them. They think quickly on their feet and know how to make the
+                        best of any moment, no matter how gloomy it may seem.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="icofont-chart-bar-graph"></i>
+                    <h4><a href="#">Adept problem-solving skills</a></h4>
+                    <p>Due to having an innate ability to stay in the moment, Foxes are natural problem solvers, finding
+                        solutions to crises quickly. Foxes have a special sense of immediate needs and can use their
+                        resourcefulness to find solutions. At work, Foxes are geniuses to have around when crises errupt
+                        and are naturally attracted to careers which have immediate, tangible rewards.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="icofont-image"></i>
+                    <h4><a href="#">Opportunist </a></h4>
+                    <p>Foxes love adventure and will not miss an opportunity that may prove to be thrilling, pleasing or
+                        otherwise valuable. Driven by curosity, they are willing to try new methods to solving a
+                        problem, making them huge opportunists. Foxes tend to get started early on new opportunities
+                        because the doing is much more important than consideration beforehand.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="icofont-settings"></i>
+                    <h4><a href="#">Creative</a></h4>
+                    <p>Foxes are bursting with creativity. In general, they like to work with their hands because of
+                        their
+                        sensing preference meaning they are skilled at turning creative ideas into reality. Foxes tend
+                        to wind up in technical and creative fields as they provide outlets for their creativity and
+                        curiosity about how the world works.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="icofont-earth"></i>
+                    <h4><a href="#"> Adaptability</a></h4>
+                    <p>Foxes live in the present moment and prefer to take a day at work as it comes so an unexpected
+                        hitch in a project or task is very unlikely to throw them off. In fact, these are the people you
+                        want around for emergencies, as they thrive on finding practical, concrete solutions for
+                        unexpected problems. New piece of technology in the workplace? equipment malfunction? Time to
+                        re-brand? you know who to call.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="icofont-tasks-alt"></i>
+                    <h4><a href="#"> Detail Oriented </a></h4>
+                    <p>Foxes tend to focus on facts and details, rather than ideas and concepts due to their sensing
+                        preference. Foxes data collection is practical and realistic. They make excellent negotiators
+                        and troubleshooters through having a strong grounding in the reality of the moment. They are
+                        naturally talented at focusing on the details of present tasks and projects. </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</section><!-- End Services Section -->
+
+
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-info">
+                        <h3>Sailor</h3>
+                        <p>
+                            A108 Adam Street <br>
+                            NY 535022, USA<br><br>
+                            <strong>Phone:</strong> +1 5589 55488 55<br>
+                            <strong>Email:</strong> info@example.com<br>
+                        </p>
+                        <div class="social-links mt-3">
+                            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                            <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-4 col-md-6 footer-newsletter">
+                    <h4>Our Newsletter</h4>
+                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                    <form action="" method="post">
+                        <input type="email" name="email"><input type="submit" value="Subscribe">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong><span>Sailor</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/sailor-free-bootstrap-theme/ -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+    </div>
+</footer><!-- End Footer -->
+{% endblock %}

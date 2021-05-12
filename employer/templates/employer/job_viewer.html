@@ -1,0 +1,233 @@
+{% extends 'employer/core.html' %}
+{% load static %}
+{% block content %}
+{% for job in jobs %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-1">
+                        </div>
+                        <div class="col-md-10" id="gato">
+                            <h1 class="text-center"> Job Profile</h1>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-column align-items-center text-center ">
+
+                                            <div class="mt-3">
+                                                <h4>{{job.title}}</h4>
+                                                <p class="text-secondary mb-1">Employer:
+                                                    {{job.employer}}
+                                                </p>
+                                                <p class="text-secondary mb-1">Number of Applicants:
+                                                    {{job.no_applicants}}</p>
+                                                <p class="text-secondary mb-1">Status: {{job.status}} </p>
+                                                <p class="text-secondary mb-1">{{employee.phone_number}}</p>
+
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+
+                                        <div class="card-body">
+                                            <div class="d-flex flex-column align-items-center text-center">
+
+                                                <div class="mt-3">
+                                                    {% if job.ideal_person == "sj" %}
+
+                                                    <img src="{% static 'beaver.png' %}" alt="Admin"
+                                                        class="rounded-circle" width="200">
+                                                    <p> We have matched beavers with this listing!</p>
+
+                                                    {% elif job.ideal_person == "nt" %}
+                                                    <img src="{% static 'owls.png' %}" alt="Admin"
+                                                        class="rounded-circle" width="150">
+                                                    <p> We have matched owls with this listing!</p>
+                                                    {% elif job.ideal_person == "sp" %}
+                                                    <img src="{% static 'fox.png' %}" alt="Admin" class="rounded-circle"
+                                                        width="150">
+                                                    <p> We have matched foxs with this listing!</p>
+                                                    {% else %}
+                                                    <img src="{% static 'elephant.png' %}" alt="Admin"
+                                                        class="rounded-circle" width="150">
+                                                    <p> We have matched elephants with this listing!</p>
+                                                    {% endif %}
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-column align-items-center text-center ">
+
+                                            <div class="mt-3">
+
+
+                                                <p class="text-secondary mb-1">
+                                                    Contract Type:{{job.contract}}</p>
+                                                <p class="text-secondary mb-1">Active Since: {{job.created}} </p>
+
+                                                <p class="text-secondary mb-1">
+                                                    Role Description:<br>{{job.description_role}}
+                                                </p>
+
+
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12" id="centerit">
+                                    <h3>
+                                        Required Skills for {{job.title}}
+                                    </h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <th>
+                                                    Title
+                                                </th>
+                                                <th>
+                                                    Level
+                                                </th>
+                                                <th>
+                                                    Years Exp
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for skill in skills %}
+                                            <tr>
+
+
+                                                <td>
+                                                    {{skill.title}}
+                                                </td>
+                                                <td>
+                                                    {{skill.level}}
+                                                </td>
+                                                <td>
+                                                    {{skill.years_of}}
+                                                </td>
+                                                {% endfor %}
+                                            </tr>
+
+
+
+                                        </tbody>
+                                    </table>
+                                    <a class="btn  btn-secondary text-center btn-block"
+                                        href="{% url 'createJobSkill' pk=job.pk  %}">Add Skill
+                                    </a>
+
+                                    <h3>
+                                        Related tags for {{job.title}}
+                                    </h3>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+
+                                                <th>
+                                                    Title
+                                                </th>
+                                                <th>
+                                                    Category
+                                                </th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for tag in tags %}
+                                            <tr>
+
+
+                                                <td>
+                                                    {{tag.title}}
+                                                </td>
+                                                <td>
+                                                    {{tag.category}}
+                                                </td>
+
+                                                {% endfor %}
+                                            </tr>
+
+
+
+                                        </tbody>
+                                    </table>
+                                    <a class="btn  btn-secondary text-center btn-block"
+                                        href="{% url 'createJobtag' pk=job.pk  %}">Add Skill
+                                    </a>
+                                </div>
+                            </div>
+
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+
+
+                            <div class="row">
+
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-5 text-center">
+                                    <h3 class="text-center">
+                                        {{job.no_applicants}} applications for {{job.title}}
+                                    </h3>
+                                    <a class="btn btn-lg btn-secondary text-center"
+                                        href="{% url 'jobprofile' pk=job.pk %}">
+                                        Manage Applications
+
+                                    </a>
+                                </div>
+                                <div class="col-md-5 text-center">
+                                    <h3 class="text-center">
+                                        Something has changed?
+                                    </h3>
+                                    <a class="btn btn-lg btn-secondary text-center" href="{% url 'createjob'  %}">
+                                        Edit Job Details
+
+                                    </a>
+                                </div>
+                                <div class="col-md-1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+{% endfor %}
+
+{% endblock %}

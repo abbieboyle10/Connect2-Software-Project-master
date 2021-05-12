@@ -2,49 +2,114 @@
 {% block content %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3">
-            <a class="btn  btn-secondary" href="{% url 'jobprofile' pk=test.pk %}">Back</a>
-        </div>
-        <div class="col-md-9">
-            <h2 class="subtitle">Your application for {{ app.job }}</h2>
+        <div class="col-md-12">
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-1">
+                    </div>
+                    <div class="col-md-3">
 
-            <small>Date added: {{ app.created }}</small>
+                    </div>
+                </div>
+                <div class="col-md-10 text-center">
+                    <h2 class="subtitle">Your application for {{ app.job }}</h2>
 
+                    <small>Date added: {{ app.created }}</small>
+                </div>
 
-
-            <hr>
-
-            <h2 class="subtitle">Messages</h2>
-
-            {% for message in app.conversationmessages.all %}
-            <div class="notification">
-                <b>{{ message.created_by.username }} - {{ message.created_at|timesince }} ago</b><br>
-
-                {{ message.content }}
+                <div class="col-md-1">
+                </div>
             </div>
-            {% empty %}
-            <p>No messages yet...</p>
+        </div>
+        <div class="row">
+            <div class="col-md-1">
 
-            <hr>
-            {% endfor %}
+            </div>
+            <div class="col-md-4">
 
-            <form method="post" action=".">
-                {% csrf_token %}
 
-                <div class="field">
-                    <div class="control">
-                        <textarea class="textarea" placeholder="Your message" name="content" id="id_content"></textarea>
-                    </div>
+                <h2 class="subtitle">Messages</h2>
+
+                {% for message in app.conversationmessages.all %}
+                <div class="notification">
+                    <b>{{ message.created_by.username }} - {{ message.created_at|timesince }} ago</b><br>
+
+                    {{ message.content }}
                 </div>
+                {% empty %}
+                <p>No messages yet...</p>
 
-                <div class="field">
-                    <div class="control">
-                        <button class="button is-success">Send</button>
+                <hr>
+                {% endfor %}
+
+                <form method="post" action=".">
+                    {% csrf_token %}
+
+                    <div class="field">
+                        <div class="control">
+                            <textarea class="textarea" placeholder="Your message" name="content"
+                                id="id_content"></textarea>
+                        </div>
                     </div>
-                </div>
-            </form>
+
+                    <div class="field">
+                        <div class="control">
+                            <button class="button is-success">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-4">
+                <h4><a href="#">Interview Requests</a></h4>
+                <p>Interview requests for {{ app.job }} will appear here. You can accept a request to confirm
+                    the interview and share your user profile. </p>
+
+                {% if app.status == "Open" %}
+
+                <p> You have not requested an interview</p>
+
+                {% elif app.status == "Interview" %}
+                {% for x in interviewdetails %}
+                <p> Your interview request has been sent</p>
+                <h4> Details</h4>
+                <p> Time: {{ x.date}}</p>
+                <p> Location: {{ x.platform}}</p>
+                {% endfor %}
+
+                {% elif app.status == "Rejected" %}
+                {% for x in interviewdetails %}
+                <p> Your interview request has been rejected</p>
+                <h4> Details</h4>
+                <p> Time: {{ x.date}}</p>
+                <p> Location: {{ x.platform}}</p>
+                {% endfor %}
+
+                {% else %}
+
+                <p> Your interview request has been accepeted!</p>
+                <h4> Details</h4>
+                <p> Time: {{ x.date}}</p>
+                <p> Location: {{ x.platform}}</p>
+
+                {% for emp in employee %}
+                <a class="nav-link"
+                    href="{% url 'employerviewemp' xd=app.candidate.pk pl=interviewdetails.pk %}">Profile</a>
+
+
+
+                {% endfor %}
+                {% endif %}
+
+
+            </div>
+            <div class="col-md-1">
+            </div>
         </div>
     </div>
 </div>
+</div>
+
 
 {% endblock %}

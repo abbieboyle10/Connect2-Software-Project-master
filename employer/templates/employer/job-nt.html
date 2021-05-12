@@ -1,0 +1,215 @@
+{% extends 'employer/core.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+
+
+<section id="about" class="about">
+    <div class="container">
+
+        <div class="row content">
+            <div class="col-lg-6">
+                <h2>The job is now posted.</h2>
+                <h3>Thank you for choosing Connect2. </h3>
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0">
+                <p>
+                    In the meantime, below is information regarding the predicted ideal personality type for the job you
+                    have listed. Candidates with this personality type will be granted bonus points in our application
+                    ranking system.
+                </p>
+                <p class="font-italic">
+                    Character traits are not something you can teach, so when you need candidates with certain soft
+                    skills, your best bet is to hire based on personality and then teach the hard skills.
+                </p>
+
+
+            </div>
+        </div>
+
+    </div>
+</section><!-- End About Section -->
+
+
+
+<section id="services" class="services">
+    <div class="container">
+        <div class="section-title">
+            <h2>Ideal Personality type</h2>
+            <p>Owl</p>
+        </div>
+        <div class="row">
+
+            <div class="col-md-8">
+                <p> The ideal personality type for this job is Owl. For more infomration on the different animal
+                    types click <a href="{% url 'employer-profile'  %}">here.</a></p>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{% static 'owls.png' %}" class="img-fluid" alt="Responsive image" id="elephant">
+            </div>
+            <div class="col-md-3">
+                <img src="{% static 'owls.png' %}" class="img-fluid" alt="Responsive image" id="elephant">
+            </div>
+            <div class="col-md-3">
+                <img src="{% static 'owls.png' %}" class="img-fluid" alt="Responsive image" id="elephant">
+            </div>
+            <div class="col-md-3">
+                <img src="{% static 'owls.png' %}" class="img-fluid" alt="Responsive image" id="elephant">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="icon-box">
+                    <i class="icofont-computer"></i>
+                    <h4><a href="#">Goal Oriented</a></h4>
+                    <p> Owls see life as a system to be designed and redesigned. They learn by testing the system in
+                        a relentless pursuit of excellence. They have a talent for conceptualising and systems planning
+                        and are strategic planners and goal setters. When an Owl has a new idea, they set goals to
+                        achieve it. </p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="icofont-chart-bar-graph"></i>
+                    <h4><a href="#">Logical</a></h4>
+                    <p>Owls gather data consistently largely of abstractions and possibilites which they filter through
+                        their objectives decision making process. Their driving force in their never ending quest for
+                        competence is to theorise and intellectualise everything meaning they are some of the most
+                        logical beings.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="icofont-image"></i>
+                    <h4><a href="#"> Leadership Tendencies </a></h4>
+                    <p>Owls are typically strong willed and confident in their own abilities. Combine these factors with
+                        their goal oriented and logical tendencies and you have excellent leadership potential. Owls
+                        enjoy planning for the future and have a knack for control,so it should come as no surprise that
+                        they are best suited for jobs that demand strong authority. They are naturally able to grasp how
+                        to move from one step to the next.</p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="icofont-settings"></i>
+                    <h4><a href="#">Problem Solving</a></h4>
+                    <p>Owls are the problem solving temperament, particularly if the problem has to do with the
+                        many complex systems that make up the world around us. Owls might tackle problems in
+                        organic systems such as plants and animals, or in mechanical systems such as railroads and
+                        computers, or in social systems such as families and companies and governments. Whatever systems
+                        fire their curiosity, Owls work to improve them.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="icofont-earth"></i>
+                    <h4><a href="#"> Inventors </a></h4>
+                    <p> Owls begin building gadgets and mechanisms as young children, and never really stop, though as
+                        adults they will turn their inventiveness to many kinds of organizations, social as well as
+                        mechanical. With their innovative, entrepreneurial spirit, Owls are always on the lookout
+                        for a better way, always eyeing new projects, new enterprises, new processes. </p>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0">
+                <div class="icon-box">
+                    <i class="icofont-tasks-alt"></i>
+                    <h4><a href="#"> Independant </a></h4>
+                    <p>Owls are level-headed and thoughtful. They are incredibly analytical and have the desire to have
+                        an in-depth understanding of the world. This is why Owls are typically found thriving in
+                        positions where they are free to explore their ideas independently and use these ideas to solve
+                        complexed problems. </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</section><!-- End Services Section -->
+
+
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="footer-top">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-info">
+                        <h3>Sailor</h3>
+                        <p>
+                            A108 Adam Street <br>
+                            NY 535022, USA<br><br>
+                            <strong>Phone:</strong> +1 5589 55488 55<br>
+                            <strong>Email:</strong> info@example.com<br>
+                        </p>
+                        <div class="social-links mt-3">
+                            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                            <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-2 col-md-6 footer-links">
+                    <h4>Useful Links</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-6 footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Design</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Web Development</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Product Management</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Marketing</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Graphic Design</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-4 col-md-6 footer-newsletter">
+                    <h4>Our Newsletter</h4>
+                    <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                    <form action="" method="post">
+                        <input type="email" name="email"><input type="submit" value="Subscribe">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong><span>Sailor</span></strong>. All Rights Reserved
+        </div>
+        <div class="credits">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/sailor-free-bootstrap-theme/ -->
+            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+        </div>
+    </div>
+</footer><!-- End Footer -->
+{% endblock %}

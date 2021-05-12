@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'nested_admin',
 
-    'account', 'employee', 'employer', 'personality', 'notifications'
+    'account', 'employee', 'employer', 'personality', 'notifications',
+
+    'django_filters',
 ]
 
 MIDDLEWARE = [

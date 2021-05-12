@@ -29,6 +29,8 @@ class Employee(models.Model):
     title = models.CharField(max_length=200, blank=True)
     city = models.CharField(max_length=200, blank=True)
     personality_test = models.BooleanField(default=False)
+    person_avatar = models.ImageField(
+        default='owls.png', upload_to='avatar_pics')
 
     def __str__(self):
         return f"{self.user.username}-{self.created}"
@@ -160,7 +162,7 @@ class Job(models.Model):
     title = models.CharField(max_length=200)
     description_role = models.TextField(max_length=2000, null=True, blank=True)
     description_personality = models.TextField(
-        max_length=200, null=True, blank=True)
+        max_length=200000, null=True, blank=True)
     contract = models.CharField(max_length=200, null=True, choices=CONTRACT)
     office_type = models.CharField(max_length=200, null=True, choices=WORK)
     length = models.CharField(max_length=200, null=True, choices=LENGTH)
@@ -171,6 +173,7 @@ class Job(models.Model):
         max_length=2000, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     job_round = models.IntegerField(null=True, default=1)
+    no_applicants = models.IntegerField(default=0, null=True)
 
 # need to add skill list!
 
@@ -183,6 +186,7 @@ class Application(models.Model):
         ('applied', 'applied'),
         ('second round', 'second round'),
         ('interview', 'interview'),
+        ('accepted', 'accepted'),
         ('rejected', 'rejected'),
     }
     candidate = models.ForeignKey(
@@ -299,10 +303,77 @@ class InterviewPlan(models.Model):
         ('Other', 'Other'),
 
     )
+
+    options = (
+        ('Open', 'Open'),
+        ('Confirmed', 'Confirmed'),
+        ('Rejected', 'Rejected'),
+
+    )
     application = models.ForeignKey(
         Application, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=False)
     time = models.TextField(null=True)
     location = models.CharField(max_length=200, blank=False, choices=locations)
     platform = models.CharField(max_length=200, blank=False, choices=platforms)
-    confirmed = models.BooleanField(default=False)
+    status = models.CharField(max_length=200, choices=options, default='Open')
+
+
+class PersonTag(models.Model):
+    areas = (
+        ('Business', 'Business'),
+        ('IT', 'IT'),
+        ('Retail', 'Retail'),
+
+    )
+    employee = models.ForeignKey(
+        Employee, null=True, on_delete=models.CASCADE)
+    title = title = models.CharField(max_length=200, blank=True)
+    category = models.CharField(
+        max_length=200, choices=areas, default='Business')
+
+
+class JobTag(models.Model):
+    areas = (
+        ('Business', 'Business'),
+        ('IT', 'IT'),
+        ('Retail', 'Retail'),
+
+    )
+
+    job = models.ForeignKey(
+        Job, null=True, on_delete=models.CASCADE)
+    title = title = models.CharField(max_length=200, blank=True)
+    category = models.CharField(
+        max_length=200, choices=areas, default='Business')
+
+
+class JobRankings(models.Model):
+    job = models.ForeignKey(
+        Job, null=True, on_delete=models.CASCADE)
+    score = models.IntegerField(null=True)
+    employee = models.ForeignKey(
+        Employee, null=True, on_delete=models.CASCADE)
+
+
+class SharedThing(models.Model):
+    areas = (
+        ('Tag', 'Tag'),
+        ('Skill', 'Skill'),
+
+
+    )
+    title = models.CharField(max_length=200, blank=True)
+    jobrank = models.ForeignKey(
+        JobRankings, null=True, on_delete=models.CASCADE)
+    sort = models.CharField(
+        max_length=200, choices=areas, null=True)
+    employee = models.ForeignKey(
+        Employee, null=True, on_delete=models.CASCADE)
+
+
+class TopThree(models.Model):
+    jobranking = models.ForeignKey(
+        JobRankings, null=True, on_delete=models.CASCADE)
+    employee = models.ForeignKey(
+        Employee, null=True, on_delete=models.CASCADE)

@@ -18,30 +18,30 @@ class JobForm(ModelForm):
     class Meta:
         model = Job
         fields = ('title', 'location', 'description_role',
-                  'contract', 'office_type', 'length', 'num_hires', 'description_personality', 'enviornment',)
+                  'contract', 'office_type', 'length',  'description_personality', 'enviornment',)
 
         labels = {
-            "title": "Job title",
+
             "location": "Location",
-            "description_role": "Description of the role",
+            "description_role": "Role Responsibilities",
             "office_type": "Can this job be performed remotely, meaning primarily from home? If so, we’ll add a 'Remote' tag to your post",
             "length": "Type of contract",
-            "num_hires": "How many people are you hiring?",
-            "description_personality": "Please describe the ideal canidates personality",
-            "enviornment": "Please describe the work enviornment, the future employees role within the team and interaction with co-workers"
+
+            "description_personality": "Role Description",
+            "enviornment": "Daily Role"
 
         }
 
         widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Title of Role'}),
             'location': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'City or Town'}),
-            'description_role': forms.TextInput(attrs={'class': 'form-control'}),
+            'description_role': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Please describe the daily and long term responsibilities'}),
             'contract': forms.Select(attrs={'class': 'form-control'}),
             'office_type': forms.Select(attrs={'class': 'form-control'}),
             'length': forms.Select(attrs={'class': 'form-control'}),
-            'num_hires': forms.TextInput(attrs={'class': 'form-control'}),
-            'description_personality': forms.TextInput(attrs={'class': 'form-control'}),
-            'enviornment': forms.TextInput(attrs={'class': 'form-control'}),
+
+            'description_personality': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Please list a minimum of ten words describing the candidates role within their team. Will they be required to take a leadership role? Will they be required to support and teach others? '}),
+            'enviornment': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Please describe the daily or reoccuring tasks involved within the role '}),
         }
 
 
@@ -55,5 +55,48 @@ class InterviewForm(ModelForm):
             "date": "Date of interview",
             "location": "Location",
             "platform": "Platform",
+
+        }
+
+
+class JobSkillForm(ModelForm):
+    class Meta:
+        model = JobSkill
+        fields = ('title',  'level',
+                  'years_of',)
+
+        labels = {
+
+            "title": "Title of Skill",
+            "level": "Expected Level",
+            "years_of": "Years of Experience",
+
+
+        }
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'level': forms.Select(attrs={'class': 'form-control'}),
+            'years_of': forms.Select(attrs={'class': 'form-control'}),
+
+        }
+
+
+class JobTagForm(ModelForm):
+    class Meta:
+        model = JobTag
+        fields = ('title',  'category')
+
+        labels = {
+
+            "title": "Title of Skill",
+            "category": "Category",
+
+
+
+        }
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
+
 
         }

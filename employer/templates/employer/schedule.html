@@ -25,27 +25,29 @@
 <body>
     {% include 'employer/navbar.html'%}
 
+    <div id="scehduleitttt">
 
-    <h1> Please enter the interview details below </h1>
+        <h1> Please enter the interview details below </h1>
 
-    <div class="form-group" id="help">
-        <form action="" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
+        <div class="form-group" id="help">
+            <form action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
 
-            {{form}}
-            <hr>
-            <div class="text-center">
-                <input type="submit" name="Submit" class="btn btn-success btn-lg">
-            </div>
+                {{form}}
+                <hr>
+                <div class="text-center">
+                    <input type="submit" name="Submit" class="btn btn-success btn-lg">
+                </div>
 
 
-            <script>
-                $(function () {
-                    $("#id_date").datetimepicker({
-                        format: 'm/d/Y H:i',
+                <script>
+                    $(function () {
+                        $("#id_date").datetimepicker({
+                            format: 'm/d/Y H:i',
+                        });
                     });
-                });
-            </script>
+                </script>
+        </div>
 </body>
 
 </html>

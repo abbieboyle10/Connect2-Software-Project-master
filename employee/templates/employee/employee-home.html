@@ -1,10 +1,218 @@
 {% extends 'employee/core.html' %}
+{% load static %}
 {% block content %}
 
-<h1> Employee home page!</h1>
-{% for obj in object_list %}
 
-{{obj.name}}
+<section id="hero">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
 
-{% endfor %}
-{% endblock %}
+        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+        <div class="carousel-inner" role="listbox">
+
+            <!-- Slide 1 -->
+            <div class="carousel-item active" id="carousel-items">
+                <div class="carousel-container">
+                    <div class="container">
+                        <h2 class="animate__animated animate__fadeInDown">Welcome to <span>Connect2</span></h2>
+                        <p class="animate__animated animate__fadeInUp">Here at Connect2 we believe in equal opportunist
+                            employment. We have created a space for Employers and Employees to match make with one
+                            another through Machine Learning.</p>
+                        <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read
+                            More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item" id="carousel-items2">
+                <div class="carousel-container">
+                    <div class="container">
+                        <h2 class="animate__animated animate__fadeInDown">Personality Testing</h2>
+                        <p class="animate__animated animate__fadeInUp">We have created our own personality test for
+                            Employee users to take. You can complete your test today and be assigned your work animal
+                            type to discover more about yourself in the professional enviornment!</p>
+                        <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read
+                            More</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item" id="carousel-items3">
+                <div class="carousel-container">
+                    <div class="container">
+                        <h2 class="animate__animated animate__fadeInDown">Anonymous Candidate Selection</h2>
+                        <p class="animate__animated animate__fadeInUp"> Employers can post available positions within
+                            their companies. Employee users can create their anonymous profiles today and apply to these
+                            jobs. Connect2 employee profiles reamin anonymous, with Employer users only being shown the
+                            core details of each applicant including their personality, skills and experiences. When
+                            candidates are selected for interview, employee users can share their personal details!</p>
+                        <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read
+                            More</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon icofont-simple-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+
+        <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon icofont-simple-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+
+    </div>
+</section><!-- End Hero -->
+
+<main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <div class="container">
+
+            <div class="row content">
+                <div class="col-lg-6">
+                    <h2>A new approach to hiring!</h2>
+                    <h3> Try Connect2 for your job searching or hiring needs! We have helped hundreds of individuals and
+                        organisations find their match.
+                    </h3>
+                </div>
+                <div class="col-lg-6 pt-4 pt-lg-0">
+                    <p>
+
+                    </p>
+                    <ul>
+                        <li><i class="ri-check-double-line"></i> Complete our professional personality test to
+                            understand your behavioural tendencies within the professional enviornment!
+                        </li>
+                        <li><i class="ri-check-double-line"></i> Create job listings and allow Connect2 determine
+                            exactly what type of employee you are searching for!</li>
+                        <li><i class="ri-check-double-line"></i> Contact employees and employers direclty using
+                            Connect2. Schedule interviews and more!</li>
+                    </ul>
+                    <p class="font-italic">
+                        Connect2 will rank job applicats in
+                        against one another, allowing the employer to see which individuals meet the
+                        skills and personality requirements for the position the most.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Clients Section ======= -->
+    <section id="clients" class="clients section-bg">
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-1.png" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-2.png" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-3.png" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-4.png" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-5.png" class="img-fluid" alt="">
+                </div>
+
+                <div class="col-lg-2 col-md-4 col-6 d-flex align-items-center justify-content-center">
+                    <img src="assets/img/clients/client-6.png" class="img-fluid" alt="">
+                </div>
+
+            </div>
+
+        </div>
+    </section><!-- End Clients Section -->
+    <section id="services" class="services">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Service</h2>
+                <p>The Services We Offer</p>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="icon-box">
+                        <i class="fa fa-building"></i>
+                        <h4><a href="#">Employer Profile</a></h4>
+                        <p>Employers have the opportunity to create profiles for their company. Here they can list the
+                            relevant information for potential future employees to view. </p>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <i class="fa fa-user"></i>
+                        <h4><a href="#">Employee Profile </a></h4>
+                        <p>Employees can use Connect2 to create professional profiles based around their skills and
+                            personality. Employees can add their skills and experiences to their Connect2 profile. </p>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <i class="fa fa-users"></i>
+                        <h4><a href="#">Complete Personality Testing </a></h4>
+                        <p>Employee users can use Connect2 to understand more about their behaviour in the working
+                            world. Connect2 provides its own personality testing for employee users to complete.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <i class="fa fa-user-secret"></i>
+                        <h4><a href="#">Apply to Jobs Anonymously</a></h4>
+                        <p>Employee users can use Connect2 to apply to job listings directly. When employee users apply,
+                            their professional profile is submitted to the employer and kept anonymous.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <i class="fa fa-list-ol"></i>
+                        <h4><a href="#">Manage Applications</a></h4>
+                        <p>Connect2 allows Employers to manage their applications. Connect2 scores each candidate using
+                            its own ATS system and allows Employers to view and select candidates they are interested
+                            in.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <i class="fa fa-calendar-o"></i>
+                        <h4><a href="#">Schedule Interviews</a></h4>
+                        <p>Connect2 offers an interview scheduling service to Employer users. This can be used to
+                            arrange interviews with applicants they are interested in. When an interview is scheudle,
+                            Employee users have the option to share their details.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End Services Section -->
+
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="assets/vendor/venobox/venobox.min.js"></script>
+    <script src="assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+    <script src="assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+    {% endblock %}

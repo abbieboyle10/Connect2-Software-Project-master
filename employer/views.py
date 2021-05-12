@@ -13,10 +13,11 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView
+from account.filters import JobFilter
 
 from account.decorators import employee_required, employee_check
-from account.models import Employer, Job, Employee, MatchedSkills, Application, ConversationMessage
-from .forms import JobForm, EmployerModelForm, InterviewForm
+from account.models import Employer, Job, Employee, MatchedSkills, Application, ConversationMessage, JobSkill, InterviewPlan, JobTag
+from .forms import JobForm, EmployerModelForm, InterviewForm, JobSkillForm, JobTagForm
 import pickle
 import os
 import numpy as np
@@ -62,6 +63,24 @@ def employer_profile(request):
     # return HttpResponse('Hello world')
 
 
+def employerviewemp(request, xd, pl):
+
+    employer = Employer.objects.get(user=request.user)
+    employee = Employee.objects.get(pk=xd)
+    interviewdetails = InterviewPlan.objects.get(pk=pl)
+    job = interviewdetails.application.job
+
+    context = {
+        'employer': employer,
+        'employee': employee,
+        'interviewdetails': interviewdetails,
+        'job': job,
+
+    }
+
+    return render(request, 'employer/come.html', context)
+
+
 def jobprofile(request, pk):
     employer = Employer.objects.get(user=request.user)
 
@@ -81,7 +100,32 @@ def jobprofile(request, pk):
 
 
     }
-    return render(request, 'employer/job_profile.html', context)
+    return render(request, 'employer/test.html', context)
+
+
+def jobviewer(request, pk):
+    employer = Employer.objects.get(user=request.user)
+
+    jobs = Job.objects.filter(pk=pk)
+    test = Job.objects.get(id=pk)
+    applications = test.application_set.all().order_by('-score')
+    print(applications)
+    application = Application.objects.filter(job=test)
+    skills = test.jobskill_set.all()
+    tags = test.jobtag_set.all()
+
+    context = {
+        'employer': employer,
+        'jobs': jobs,
+        'applications': applications,
+        'skills': skills,
+        'test': test,
+        'tags': tags,
+
+
+
+    }
+    return render(request, 'employer/job_viewer.html', context)
 
 
 def deleteApplication(request, pk):
@@ -118,10 +162,30 @@ def jobs(request):
 
     employer = Employer.objects.get(user=request.user)
     jobs = employer.job_set.all()
+    myFilter = JobFilter(request.GET, queryset=jobs)
+    jobs = myFilter.qs
 
     context = {
         'employer': employer,
         'jobs': jobs,
+        'myFilter': myFilter,
+
+    }
+
+    return render(request, 'employer/jobs.html', context)
+    # return HttpResponse('Hello world')
+
+
+def clearjobs(request):
+
+    employer = Employer.objects.get(user=request.user)
+    jobs = employer.job_set.all()
+    myFilter = JobFilter(request.GET, queryset=jobs)
+
+    context = {
+        'employer': employer,
+        'jobs': jobs,
+        'myFilter': myFilter,
 
     }
 
@@ -141,6 +205,7 @@ def browse(request):
     }
 
     return render(request, 'employer/browse.html', context)
+
     # return HttpResponse('Hello world')
 
 
@@ -214,47 +279,20 @@ def createJob(request):
 
 
                 }
-            return render(request, 'employer/employer-home.html', context)
+
+                if personality == "nt":
+                    print(personality)
+                    return render(request, 'employer/job-nt.html', context)
+                elif personality == "nf":
+                    return render(request, 'employer/job-nf.html', context)
+                elif personality == 'sp':
+                    return render(request, 'employer/job-sp.html', context)
+                else:
+                    return render(request, 'employer/job-sj.html', context)
 
     context = {'form': form,
                }
     return render(request, 'employer/job_form.html', context)
-
-
-def predictPerson(request):
-    user = request.user
-    print(request)
-
-    if request.method == 'POST':
-        sample = request.POST.get('description')
-        test_requests = tuple([sample])
-        print(test_requests)
-    tags_split = [['sj'], ['sj'], ['nt'], ['nf'], ['sp'], ['nt'], ['sj'], ['nf'], ['sp'], ['sp'], ['sj'], ['sp'], ['sp'], ['nf'], ['nf'], ['sp'], ['sp'], ['sj'], ['nt'], ['nt'], ['sp'], [
-        'sj'], ['sj'], ['sj'], ['sj'], ['nt'], ['sj'], ['nf'], ['nf'], ['nf'], ['nf'], ['sp'], ['nt'], ['sj'], ['nf'], ['nf'], ['sj'], ['sj'], ['sj'], ['nf'], ['nt'], ['sj'], ['nt'], ['nf']]
-    tag_encoder = MultiLabelBinarizer()
-    tag_encoded = tag_encoder.fit_transform(tags_split)
-    num_tag = len(tag_encoded[0])
-
-    classifier = CustomModelPrediction.from_path('.')
-    results = classifier.predict(test_requests)
-    print(results)
-
-    for i in range(len(results)):
-        print('Predicted labels:')
-        for idx, val in enumerate(results[i]):
-            if val > 0.6:
-                print(tag_encoder.classes_[idx])
-                personality = tag_encoder.classes_[idx]
-                print(personality)
-        print('\n')
-
-    context = {
-        'user': user,
-
-
-
-    }
-    return render(request, 'employer/employer-home.html', context)
 
 
 def nextround(request, pk):
@@ -301,6 +339,7 @@ def createInterview(request, pk):
             create_notification(request, application.candidate.user, application.job, application,
                                 'message', extra_id=application.id)
             application.interview = True
+
             print(application.interview)
             application.save()
         else:
@@ -333,6 +372,8 @@ def scheduleInterview(request, id, pk):
             hiya.application = application
             hiya.confirmed = True
             application.interview = False
+            application.status = 'Interview'
+            print(application.status)
             content = "Your interview for "+str(job)+" has been scheduled for "+str(hiya.date)+" at " + str(hiya.time)+". It will be an "+str(hiya.location) + \
                 " interview taking place at "+str(hiya.platform)
             conversationmessage = ConversationMessage.objects.create(
@@ -341,3 +382,51 @@ def scheduleInterview(request, id, pk):
             hiya.save()
             return HttpResponseRedirect(reverse('jobprofile', args=[int(pk)]))
     return render(request, 'employer/schedule.html', context)
+
+
+def createJobSkill(request, pk):
+    form = JobSkillForm()
+    employer = Employer.objects.get(user=request.user)
+    job = Job.objects.get(pk=pk)
+    skill = JobSkill.objects.filter(job=job)
+    skills = job.jobskill_set.all()
+
+    context = {'employer': employer, 'job': job,
+               'skill': skill, 'skills': skills, 'form': form}
+
+    if request.method == 'POST':
+        # print('Printing POST:', request.POST)
+        form = JobSkillForm(request.POST)
+        if form.is_valid():
+            hiya = form.save()
+            hiya.job = job
+            hiya.save()
+            return HttpResponseRedirect(reverse('createJobSkill', args=[int(pk)]))
+
+    context = {'employer': employer, 'job': job,
+               'skill': skill, 'skills': skills, 'form': form}
+    return render(request, 'employer/job_skill.html', context)
+
+
+def createJobtag(request, pk):
+    form = JobTagForm()
+    employer = Employer.objects.get(user=request.user)
+    job = Job.objects.get(pk=pk)
+    tag = JobTag.objects.filter(job=job)
+    tags = job.jobtag_set.all()
+
+    context = {'employer': employer, 'job': job,
+               'tag': tag, 'tags': tags, 'form': form}
+
+    if request.method == 'POST':
+        # print('Printing POST:', request.POST)
+        form = JobTagForm(request.POST)
+        if form.is_valid():
+            hiya = form.save()
+            hiya.job = job
+            hiya.save()
+            return HttpResponseRedirect(reverse('createJobtag', args=[int(pk)]))
+
+    context = {'employer': employer, 'job': job,
+               'tag': tag, 'tags': tags, 'form': form}
+    return render(request, 'employer/job_tag.html', context)

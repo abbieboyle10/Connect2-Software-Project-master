@@ -1,0 +1,492 @@
+{% extends 'employer/core.html' %}
+{% load static %}
+{% block content %}
+{% for job in jobs %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h3 class="text-center">
+                        Job Dashboard
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-2">
+                    <div id="hiyas">
+                        <div class="card">
+
+                            <div class="card-body">
+                                <div class="d-flex flex-column align-items-center text-center ">
+
+                                    <div class="mt-3">
+                                        <h4>{{job.title}}</h4>
+                                        <p class="text-secondary mb-1">Employer:
+                                            {{job.employer}}
+                                        </p>
+                                        <p class="text-secondary mb-1">Number of Applicants: 6</p>
+                                        <p class="text-secondary mb-1">Status: {{job.status}} </p>
+                                        <p class="text-secondary mb-1">{{employee.phone_number}}</p>
+
+
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+
+                            <div class="card-body">
+                                <div class="d-flex flex-column align-items-center text-center">
+
+                                    <div class="mt-3">
+                                        {% if job.ideal_person == "sj" %}
+
+                                        <img src="{% static 'beaver.png' %}" alt="Admin" class="rounded-circle"
+                                            width="200">
+                                        <p> We have matched beavers with this listing!</p>
+
+                                        {% elif job.ideal_person == "nt" %}
+                                        <img src="{% static 'owls.png' %}" alt="Admin" class="rounded-circle"
+                                            width="150">
+                                        <p> We have matched owls with this listing!</p>
+                                        {% elif job.ideal_person == "sp" %}
+                                        <img src="{% static 'fox.png' %}" alt="Admin" class="rounded-circle"
+                                            width="150">
+                                        <p> We have matched foxs with this listing!</p>
+                                        {% else %}
+                                        <img src="{% static 'elephant.png' %}" alt="Admin" class="rounded-circle"
+                                            width="150">
+                                        <p> We have matched elephants with this listing!</p>
+                                        {% endif %}
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-10">
+                    <table class="table table-sm">
+                        <tr>
+                            {% if job.status == 'Interview' %}
+                            <th>#</th>
+                            <th>Applied</th>
+                            <th>Personality</th>
+                            <th>Score</th>
+                            <th> Common Skills</th>
+                            <th> Cover Letter</th>
+                            <th> Stage</th>
+                            <th> Contact </th>
+                            <th> Interview </th>
+
+                            {% else %}
+                            <th>#</th>
+                            <th>Applied</th>
+                            <th>Personality</th>
+                            <th>Score</th>
+                            <th> Common Skills</th>
+                            <th> Cover Letter</th>
+                            <th> Highlight </th>
+                            <th> Round</th>
+
+                            {% endif %}
+
+                        </tr>
+
+                        {% for application in applications %}
+
+                        <tr>
+
+                            <td class="counterCell"></td>
+
+
+                            <td>
+                                <p>{{application.created}}</p>
+                            </td>
+                            {% if application.match == True %}
+                            <td> <img src="{% static 'purple.png' %}" class="img-fluid" alt="Responsive image"
+                                    id="greentic">
+                            </td>
+                            {% else %}
+
+                            <td> <img src="{% static 'unnamed.png' %}" class="img-fluid" alt="Responsive image"
+                                    id="redex">
+                            </td>
+                            {% endif %}
+
+                            <td> {{application.score}} </td>
+                            <td> {% for matchedskill in application.sorted_apps %}
+                                <p> {{matchedskill.title}} </p> {% endfor %}
+                            </td>
+
+
+                            <td><button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModal" data-whatever={{application.cover_letter}}>
+                                    Cover Letter
+                                </button></td>
+                            <td>
+                                {% if job.status == 'Open' %}
+                                <form action="{% url 'likeview' id=application.id pk=test.pk %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" button
+                                        class="btn btn-link text-dark p-0 border-0 btn-outline-light"
+                                        name="application_id" value="{{application.id}}">
+                                        {% if application.favourited == False %}
+                                        <svg width="1.8em" height="2em" viewBox="0 0 16 16" class="bi bi-star"
+                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                                        </svg>
+                                        {% else %}
+                                        <svg width="1.8em" height="2em" viewBox="0 0 16 16" class="bi bi-star"
+                                            fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                                d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                                        </svg>
+
+                                        {% endif %}
+                                        {% else %}
+                                        <p> {{job.status}}</p>
+                                        {% endif %}
+                                </form>
+
+                                </button>
+                            </td>
+                            {% if job.status == 'Open' %}
+                            <td> {{application.job_round}}</td>
+                            {% else %}
+
+                            {% endif %}
+                            <td><a class="btn  btn-danger"
+                                    href="{% url 'view_application' id=application.id pk=test.pk  %}">Message</a>
+                            </td>
+                            <td> {% if job.status == 'Interview' %}
+                                {% if application.interview == True %}
+                                <a class="btn btn-sm btn-block btn-outline-info"
+                                    href="{% url 'scheduleInterview' id=application.id pk=test.pk  %}">
+                                    Schedule
+                                </a>
+                                {% else %}
+                                {% for interviewplan in application.sorted_apps2 %}
+
+
+                                <p> {{interviewplan.date}} </p>
+                                {% endfor %}
+
+                                {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                {% else %}
+                                <a class="btn  btn-danger"
+                                    href="{% url 'delete_application' application.id %}">Delete</a>
+                                {% endif %}
+
+                            </td>
+
+
+
+                            {% endfor %}
+                        </tr>
+
+
+                        </tr>
+                    </table>
+                    <div class="row">
+                        {% if job.status == "Open" %}
+
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-block btn-sm btn-outline-secondary" data-toggle="modal"
+                                data-target="#roundModal">
+                                New Round
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-sm btn-block btn-outline-info" data-toggle="modal"
+                                data-target="#interviewModal">
+                                Interview
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="button" class="btn btn-block btn-sm btn-outline-danger" data-toggle="modal"
+                                data-target="#closeModal">
+                                Close Job
+                            </button>
+                        </div>
+                        {% elif job.status == "Interview" %}
+                        <button type="button" class="btn btn-block btn-sm btn-outline-danger" data-toggle="modal"
+                            data-target="#closeModal">
+                            Close Job
+                        </button>
+                        {% else %}
+                        <h2> This job has been closed</h2>
+
+                        {% endif %}
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+
+
+
+        <div class="col-md-12" id="paddd">
+
+            <table class="table text-center" id="greenticc">
+
+
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+
+
+                <tbody>
+                    <tr>
+                        <td> <img src="{% static 'purple.png' %}" class="img-fluid" alt="Responsive image"
+                                id="purpletic"></td>
+                        <td> this symbol means that the applicant has a personality match with
+                            the job</td>
+                        <td><button type="button" class="btn btn-primary" }>
+                                Cover Letter
+                            </button></td>
+                        <td> Click this button to view the applicants personalised cover letter</td>
+                    </tr>
+                    <tr>
+                        <td><img src="{% static 'unnamed.png' %}" class="img-fluid" alt="Responsive image" id="redex">
+                        </td>
+                        <td> This symbol means that the applicant does not have a personality match with
+                            the job</td>
+
+
+                        <td>SCORE</td>
+                        <td> The score represents how this applicant scored in the Connect2 ATS systems.
+                            The score is based on shared skills, experiences and personality. </td>
+                    </tr>
+                    <tr>
+
+
+                        <td><svg width="1.8em" height="2em" viewBox="0 0 16 16" class="bi bi-star" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                            </svg></td>
+                        <td> Click this button to favourite the applicants you are more interested in
+                        </td>
+
+                        <td><a class="btn btn-sm btn-block btn-info">
+                                Schedule
+                            </a></td>
+                        <td> Schedule interviews with your selected candidates once the job has reached
+                            its interview stage
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Cover Letter</label>
+                        <input type="text" name="bookId" id="bookId" value="" />
+                        <p></p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="roundModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure you wish to create a new round?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+
+                        <p> This will forward your highlighted applications to the next round and DELETE all
+                            applications which have not been highlighted.</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'nextround' pk=test.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" value="{{test.pk}}">
+                        Delete </button>
+                </form>
+
+                <button type=" button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="closeModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure you wish to close this job?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+
+                        <p> This will close your job listing. </p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'closejob' pk=test.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" value="{{test.pk}}">
+                        Close Job </button>
+                </form>
+
+                <button type=" button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="interviewModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are you sure you wish to interview the highlighted
+                    candidates? </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+
+                    <div class="form-group">
+
+                        <p> This will issue an interview invtie via message to each highlighted application. Your job
+                            posting will change to interview status. Favourited applicants will be issued a message to
+                            say they will recieve an interview.</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'createInterview' pk=test.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="get-started-btn ml-auto" value="{{test.pk}}">
+                        Interview Candidates </button>
+                </form>
+
+                <button type=" button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="roundModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Schedule an interview with this applicant
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+
+                <div class="form-group">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        {{form}}
+                        <hr>
+                        <div class="text-center">
+                            <input type="submit" name="Submit" class="btn btn-success btn-lg">
+                        </div>
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'createInterview' pk=test.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" value="{{test.pk}}">
+                        Close Job </button>
+                </form>
+
+                <button type=" button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</div>
+</div>
+{% endfor %}
+{% endblock %}

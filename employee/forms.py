@@ -31,7 +31,29 @@ class ApplyJobForm(forms.ModelForm):
 class SkillForm(ModelForm):
     class Meta:
         model = EmployeeSkill
-        fields = '__all__'
+        fields = ('title',  'level', 'years_of')
+    labels = {
+
+        "title": "Title of Skill",
+        "level": "Level",
+        "years_of": "Years of Experience",
+
+
+
+    }
+    widgets = {
+        'title': forms.TextInput(attrs={'class': 'form-control'}),
+        'level': forms.Select(attrs={'class': 'form-control'}),
+        'years_of': forms.Select(attrs={'class': 'form-control'}),
+
+
+    }
+
+
+class TagForm(ModelForm):
+    class Meta:
+        model = PersonTag
+        fields = ('title',  'category')
 
 
 class ExperienceForm(ModelForm):

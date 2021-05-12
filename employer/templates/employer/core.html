@@ -9,17 +9,18 @@
     <link rel="stylesheet" type="text/css" href={% static 'core.css' %}>
     <link rel="stylesheet" href="{% static 'date-time-phone/jquery-ui.css' %}">
     <link rel='stylesheet' href="{% static 'date-time-phone/jquery-ui-timepicker-addon.css' %}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Home</title>
 </head>
 
 <body>
     {% include 'employer/navbar.html'%}
+    <div id="maincont">
+        {% block content %}
 
-    {% block content %}
 
-
-    {% endblock %}
-
+        {% endblock %}
+    </div>
 
 </body>
 
@@ -45,3 +46,6 @@
         //$( "#id_birth_date" ).datepicker({ dateFormat: 'yy-mm-dd' }).attr("autocomplete", "off") ;
     });
 </script>
+
+
+<script src="{% static 'owl.carousel.min.js' %}" defer></script>
