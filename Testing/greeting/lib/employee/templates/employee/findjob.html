@@ -1,0 +1,157 @@
+{% extends 'employee/core.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-1">
+        </div>
+        <div class="col-md-10">
+            <div class="section-title">
+                <h2>Find JOb </h2>
+                <p>Our Top Jobs for you</p>
+            </div>
+            <div class="row">
+                <div class="row">
+                    {% for x in topthree %}
+
+                    <div class="col-md-4 ">
+
+                        <div class="card" id="lenit">
+                            <div class="card-body">
+                                <h5 class="card-title">{{x.job.title}} at {{x.job.employer}}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{x.job.contract}},
+                                    {{x.job.location}},
+                                    {{x.job.office_type}}</h6>
+                                <p class="card-text">Some quick example text to build on the card title and make up the
+                                    bulk of the card's content.</p>
+
+                                {% if x.job.ideal_person == personality.group %}
+                                <p>This is perfect match for your personality! {% if personality.group == "nt" %} <img
+                                        src="{% static 'owls.png' %}" class="img-fluid" alt="Responsive image"
+                                        id="pican">
+                                    {% elif personality.group == "sp" %}
+                                    <img src="{% static 'fox.png' %}" class="img-fluid" alt="Responsive image"
+                                        id="pican">
+                                    {% elif personality.group == "sj" %} <img src="{% static 'beaver.png' %}"
+                                        class="img-fluid" alt="Responsive image" id="pican"> {% else %} <img
+                                        src="{% static 'elephant.png' %}" class="img-fluid" alt="Responsive image"
+                                        id="pican">
+                                </p>
+
+                                {% endif %} {% endif %} <h6>Required skills you have:</h6>
+                                {% for p in sharedthings %}
+
+                                {% if p.jobrank == x %}
+
+                                <p> {{p.title}} </p>
+                                {% endif %}
+                                {% endfor %}
+
+                            </div>
+                            <div class="text-center">
+                                <a class="btn btn-secondary btn-lg" href="{% url 'viewjob' pk=x.job.pk %}">View</a>
+
+                            </div>
+                        </div>
+
+
+
+
+                    </div>
+                    {% endfor %}
+
+
+                </div>
+            </div>
+
+            <div class="section-title">
+                <h2>Find JOb </h2>
+                <p> There is a demand for your tag {{lmn.tag}} in {{lmn.city}} </p>
+
+            </div>
+            <div class="row">
+                {% for p in areatags %}
+
+                <div class="col-md-4">
+                    <div class="card" id="lenrit">
+                        <div class="card-body">
+                            <h5 class="card-title">{{p.job}}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{p.job.contract}},
+                                {{p.job.location}},
+                                {{p.job.office_type}}</h6>
+
+                        </div>
+
+
+                        <div class="text-center">
+                            <a class="btn btn-secondary btn-lg " href="{% url 'viewjob' pk=p.job.pk %}">View</a>
+                        </div>
+                    </div>
+
+                </div>
+                {% endfor %}
+
+
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="section-title">
+
+                        <p> Not too sure about those? </p>
+                        <h2>Check these out</h2>
+
+                    </div>
+                    <form method="get" id="ggyg">
+                        {{myFilter.form}}
+
+                        <button class="btn btn-primary" type="submit">Search</button>
+                        <a class="btn btn-primary" href="{% url 'clearjobs2'  %}"> Clear</a>
+                    </form>
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Title</th>
+                            <th>Company</th>
+                            <th>Date Posted</th>
+                            <th>Location</th>
+
+                        </tr>
+
+                        {% for job in jop %}
+                        {% if job.status == "Open" %}
+
+                        {% if job.ideal_person %}
+
+                        <tr>
+
+                            <td>{{job.title}}</td>
+                            <td>{{job.employer}}</td>
+                            <td>{{job.date_created}}</td>
+                            <td>{{job.location}}</td>
+                            <td><a class="nav-link" href="{% url 'viewjob' pk=job.pk %}">View</a></td>
+                            {% else %}
+
+
+                            {% endif %}
+
+                            {% endif %}
+
+
+                            {% endfor %}
+                        </tr>
+
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1">
+    </div>
+</div>
+</div>
+
+
+{% endblock %}
